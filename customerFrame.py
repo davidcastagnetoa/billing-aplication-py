@@ -23,17 +23,6 @@ def create_customer_frame_top(parent):
         customer_details_frame_top.rowconfigure(row, weight=1)
 
 
-
-    # # Configurando las columnas para que se expandan de manera uniforme
-    # for i in range(4):
-    #     customer_details_frame_top.columnconfigure(i, weight=1)
-    # customer_details_frame_top.columnconfigure(4, weight=0)
-
-    # # Dado que tienes dos filas, también debes configurarlas para que se expandan uniformemente si es necesario
-    # customer_details_frame_top.rowconfigure(0, weight=1)
-    # customer_details_frame_top.rowconfigure(1, weight=1)
-
-
         
     # Contenedor Entrada Nombre
     name_details_frame = tk.Frame(customer_details_frame_top, bg="#101214")
@@ -148,7 +137,7 @@ def create_customer_frame_top(parent):
     # Telefono del cliente, Label
     phoneLabel = tk.Label(
         phone_details_frame,
-        text="Teléfono",
+        text="Phone",
         font=("titillium web light", 10),
         bg="#101214",
         fg="white",
@@ -171,7 +160,7 @@ def create_customer_frame_top(parent):
     # Factura del cliente, Label
     billLabel = tk.Label(
         invoice_details_frame,
-        text="Número de Factura",
+        text="Invoice number",
         font=("titillium web light", 10),
         bg="#101214",
         fg="white",
@@ -296,50 +285,3 @@ def create_customer_frame_top(parent):
     searchButton.grid(row=0, column=4, padx=20)
 
     return customer_details_frame_top
-
-
-def create_customer_frame_bottom(parent):
-    customer_details_frame_bottom = tk.LabelFrame(
-        parent,
-        # text="Customer Details",
-        # font=("titillium web regular", 14),
-        bg="#101214",
-        # fg="white",
-        # pady=5,
-        bd=0
-    )
-    customer_details_frame_bottom.pack(fill="x", padx=10)
-
-    # Contenedor Entrada Direccion
-    address_details_frame = tk.Frame(
-        customer_details_frame_bottom, bg="#101214")
-    address_details_frame.grid(
-        row=1,
-        column=0,
-        sticky="w"
-    )
-
-    # Dirección del cliente, Label
-    addressLabel = tk.Label(
-        address_details_frame,
-        text="Address",
-        font=("titillium web light", 10),
-        bg="#101214",
-        fg="white",
-    )
-    addressLabel.grid(row=0, column=0, padx=10)
-
-    # AddressInputField = tk.Entry()
-    addressEntry = tk.Entry(
-        address_details_frame,
-        font=("titillium web light", 10),
-        bg="#1c2023",
-        fg="white",
-        width=44,
-        # bd=0,  # remover borde
-        # highlightthickness=0,  # remover highlight
-        insertbackground="gray",  # color del cursor
-    )
-    addressEntry.grid(row=0, column=1, padx=6)
-
-    return customer_details_frame_bottom

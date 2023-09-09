@@ -1,6 +1,6 @@
 import tkinter as tk
 from productsFrame import create_products_frame
-from customerFrame import create_customer_frame_top, create_customer_frame_bottom
+from customerFrame import create_customer_frame_top
 
 
 def main():
@@ -9,15 +9,15 @@ def main():
     root.title("Retail Billing System")
 
     root.iconbitmap("static/icon.ico")
-    root.geometry("1280x500")
+    root.geometry("1285x500")
     root.config(bg='#101214')
-    root.minsize(1280, 600)
+    root.minsize(1285, 600)
 
     # Cabecera título = Label()
     headingLabel = tk.Label(
         root,
         text="Retail Billing System",
-        font=("titillium web light", 18),
+        font=("titillium web semibold", 18),
         bg="#101214",
         fg="white",
     )
@@ -29,9 +29,6 @@ def main():
 
     customer_details_frame_top = create_customer_frame_top(root)
     customer_details_frame_top.pack(fill="x", padx=10, pady=10)
-
-    # customer_details_frame_bottom = create_customer_frame_bottom(root)
-    # customer_details_frame_bottom.pack(fill="x", padx=10, pady=10)
 
     ####################
     # Panel de Productos

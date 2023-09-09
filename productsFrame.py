@@ -9,20 +9,22 @@ def create_products_frame(parent):
         bg="#101214",
         fg="white",
         pady=5,
-        bd=0
+        bd=0,
     )
     productFrame.pack(fill="x", padx=10, pady=10)
 
     # productFrame.grid_columnconfigure(0, weight=1)
     productFrame.grid_columnconfigure(1, weight=1)
-    # productFrame.grid_columnconfigure(2, weight=1)
+    productFrame.grid_columnconfigure(2, weight=1)
+    # productFrame.grid_columnconfigure(3, weight=1)
 
     # Columnas
     # columna de Cosmeticos
     cosmeticsColumn = tk.Frame(productFrame, bg="#101214")
     cosmeticsColumn.grid(
         row=0,
-        column=0
+        column=0,
+        sticky="n"
     )
 
     cosmeticsFrame = tk.LabelFrame(
@@ -164,11 +166,54 @@ def create_products_frame(parent):
     )
     lotionBodyEntry.grid(row=5, column=1, padx=9, pady=5)
 
+    # Alineador = tk.Label()
+    eyeLinerLabel = tk.Label(
+        cosmeticsFrame,
+        text="Eye liner",
+        font=("titillium web light", 10),
+        bg="#101214",
+        fg="white",
+    )
+    eyeLinerLabel.grid(row=6, column=0, padx=7, pady=5, sticky="w")
+
+    # Alineador = tk.Entry()
+    eyeLinerEntry = tk.Entry(
+        cosmeticsFrame,
+        font=("titillium web light", 10),
+        bg="#1c2023",
+        fg="white",
+        width=15,
+        insertbackground="gray",
+    )
+    eyeLinerEntry.grid(row=6, column=1, padx=9, pady=5)
+
+    # Lapiz Labial = tk.Label()
+    lipstickLabel = tk.Label(
+        cosmeticsFrame,
+        text="Lipstick",
+        font=("titillium web light", 10),
+        bg="#101214",
+        fg="white",
+    )
+    lipstickLabel.grid(row=7, column=0, padx=7, pady=5, sticky="w")
+
+    # Lapiz Labial = tk.Entry()
+    lipstickEntry = tk.Entry(
+        cosmeticsFrame,
+        font=("titillium web light", 10),
+        bg="#1c2023",
+        fg="white",
+        width=15,
+        insertbackground="gray",
+    )
+    lipstickEntry.grid(row=7, column=1, padx=9, pady=5)
+
     # columna de Comestibles
     groceriesColumn = tk.Frame(productFrame, bg="#101214")
     groceriesColumn.grid(
         row=0,
-        column=1
+        column=1,
+        sticky="n"
     )
 
     groceriesFrame = tk.LabelFrame(
@@ -310,16 +355,59 @@ def create_products_frame(parent):
     )
     cinnamonEntry.grid(row=5, column=1, padx=9, pady=5)
 
+    # Bread = tk.Label()
+    breadLabel = tk.Label(
+        groceriesFrame,
+        text="Bread",
+        font=("titillium web light", 10),
+        bg="#101214",
+        fg="white",
+    )
+    breadLabel.grid(row=6, column=0, padx=7, pady=5, sticky="w")
+
+    # Bread = tk.Entry()
+    breadEntry = tk.Entry(
+        groceriesFrame,
+        font=("titillium web light", 10),
+        bg="#1c2023",
+        fg="white",
+        width=15,
+        insertbackground="gray",
+    )
+    breadEntry.grid(row=6, column=1, padx=9, pady=5)
+
+    # Salt = tk.Label()
+    saltLabel = tk.Label(
+        groceriesFrame,
+        text="Salt",
+        font=("titillium web light", 10),
+        bg="#101214",
+        fg="white",
+    )
+    saltLabel.grid(row=7, column=0, padx=7, pady=5, sticky="w")
+
+    # Salt = tk.Entry()
+    saltEntry = tk.Entry(
+        groceriesFrame,
+        font=("titillium web light", 10),
+        bg="#1c2023",
+        fg="white",
+        width=15,
+        insertbackground="gray",
+    )
+    saltEntry.grid(row=7, column=1, padx=9, pady=5)
+
     # columna de bebidas
     drinksColumn = tk.Frame(productFrame, bg="#101214")
     drinksColumn.grid(
         row=0,
-        column=2
+        column=2,
+        sticky="n"
     )
 
     drinksFrame = tk.LabelFrame(
         drinksColumn,
-        text="Cosmetics",
+        text="Drinks",
         font=("titillium web extralight", 13),
         bg="#101214",
         fg="white",
@@ -455,5 +543,70 @@ def create_products_frame(parent):
         insertbackground="gray",
     )
     pepsyEntry.grid(row=5, column=1, padx=9, pady=5)
+
+    # Aquarius = tk.Label()
+    aquariusLabel = tk.Label(
+        drinksFrame,
+        text="Aquarius",
+        font=("titillium web light", 10),
+        bg="#101214",
+        fg="white",
+    )
+    aquariusLabel.grid(row=6, column=0, padx=7, pady=5, sticky="w")
+
+    # Aquarius = tk.Entry()
+    aquariusEntry = tk.Entry(
+        drinksFrame,
+        font=("titillium web light", 10),
+        bg="#1c2023",
+        fg="white",
+        width=15,
+        insertbackground="gray",
+    )
+    aquariusEntry.grid(row=6, column=1, padx=9, pady=5)
+
+    # Lemonade = tk.Label()
+    lemonadeLabel = tk.Label(
+        drinksFrame,
+        text="Lemonade",
+        font=("titillium web light", 10),
+        bg="#101214",
+        fg="white",
+    )
+    lemonadeLabel.grid(row=7, column=0, padx=7, pady=5, sticky="w")
+
+    # Aquarius = tk.Entry()
+    lemonadeEntry = tk.Entry(
+        drinksFrame,
+        font=("titillium web light", 10),
+        bg="#1c2023",
+        fg="white",
+        width=15,
+        insertbackground="gray",
+    )
+    lemonadeEntry.grid(row=7, column=1, padx=9, pady=5)
+
+    billFrame = tk.Frame(productFrame, bg='#1c2023')
+    billFrame.grid(row=0, column=3)
+
+    billAreaFrame=tk.Label(
+        billFrame, 
+        text='Bill Area', 
+        font=('titillium web regular', 12),
+        fg="white",
+        bg='#1c2023',
+        bd=0
+    )
+    billAreaFrame.pack(fill="x", pady=5)
+
+    textarea=tk.Text(
+        billFrame,
+        font=('titillium web extralight', 12),
+        bg='#1c2023',
+        fg="white",
+        bd=0,
+        width=60
+    )
+    textarea.pack()
 
     return productFrame
