@@ -1,9 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
 from palette import get_colors
-import random
-
-billNumber = random.randint(28000, 30000)
+from billing_app import BillingApp
 
 # Importar colores
 colors = get_colors()
@@ -12,6 +10,12 @@ colors = get_colors()
 def create_products_frame(parent, customerFrame):
     nameEntry = customerFrame.nameEntry
     emailEntry = customerFrame.emailEntry
+    phoneEntry = customerFrame.phoneEntry
+    billEntry = customerFrame.billEntry
+    addressEntry = customerFrame.addressEntry
+    cityEntry = customerFrame.cityEntry
+    zipEntry = customerFrame.zipEntry
+    countryEntry = customerFrame.countryEntry
 
     productFrame = tk.LabelFrame(
         parent,
@@ -672,16 +676,17 @@ def create_products_frame(parent, customerFrame):
 
     textarea=tk.Text(
         billFrame,
-        font=('titillium web extralight', 12),
+        font=('titillium web extralight', 10),
         bg=colors["entry"],
         fg=colors["font"],
         bd=0,
         width=60,
-        height=12,
+        height=14,
         insertbackground=colors['font'],
         yscrollcommand=scrollbar.set
     )
     textarea.pack()
+    textarea.configure(state='disabled')
 
     scrollbar.config(command=textarea.yview)
     
@@ -851,176 +856,217 @@ def create_products_frame(parent, customerFrame):
     # Funcionalidad de los Botones
     ##############################
 
-    class BillingApp:
-        def __init__(self):
-            # Si tienes algún código de inicialización, ponlo aquí.
-            self.total_general = 0.0
+    # class BillingApp:
+    #     def __init__(self):
+    #         # Si tienes algún código de inicialización, ponlo aquí.
+    #         self.total_general = 0.0
 
-        def total(self):
-            # Precios de productos
-            prices = {
-                # Cosmetics
-                'cosmetics': {
-                    'soap': 3.90,
-                    'cream': 8.12,
-                    'wash': 6.85,
-                    'spray': 5.60,
-                    'gel': 8.90,
-                    'lotion': 10.20,
-                    'eye': 4.30,
-                    'lip': 6.50,
-                },
+    #     def total(self):
+    #         # Precios de productos
+    #         prices = {
+    #             # Cosmetics
+    #             'cosmetics': {
+    #                 'soap': 3.90,
+    #                 'cream': 8.12,
+    #                 'wash': 6.85,
+    #                 'spray': 5.60,
+    #                 'gel': 8.90,
+    #                 'lotion': 10.20,
+    #                 'eye': 4.30,
+    #                 'lip': 6.50,
+    #             },
 
-                # Groceries
-                'groceries': {
-                    'rice' : 2.50,
-                    'oil' : 4.50,
-                    'eggs' : 2.10,
-                    'sugar' : 2.60,
-                    'tea' : 2.10,
-                    'cinnamon' : 3.10,
-                    'bread' : 1.20,
-                    'salt' : 2.40,
-                },
+    #             # Groceries
+    #             'groceries': {
+    #                 'rice' : 2.50,
+    #                 'oil' : 4.50,
+    #                 'eggs' : 2.10,
+    #                 'sugar' : 2.60,
+    #                 'tea' : 2.10,
+    #                 'cinnamon' : 3.10,
+    #                 'bread' : 1.20,
+    #                 'salt' : 2.40,
+    #             },
 
-                # Drinks
-                'drinks': {
-                    'beer' : 4.10,
-                    'soda' : 3.20,
-                    'water' : 1.20,
-                    'coffee' : 2.25,
-                    'fanta' : 1.80,
-                    'pepsy' : 1.80,
-                    'aquarius' : 1.60,
-                    'lemonade' : 1.10
-                }
-            }
+    #             # Drinks
+    #             'drinks': {
+    #                 'beer' : 4.10,
+    #                 'soda' : 3.20,
+    #                 'water' : 1.20,
+    #                 'coffee' : 2.25,
+    #                 'fanta' : 1.80,
+    #                 'pepsy' : 1.80,
+    #                 'aquarius' : 1.60,
+    #                 'lemonade' : 1.10
+    #             }
+    #         }
 
-            # Entry widgets para cada producto
-            entries = {
-                # Cosmetics
-                'cosmetics':{
-                    'soap': bathSoapEntry,
-                    'cream': faceCreamEntry,
-                    'wash': faceWashEntry,
-                    'spray': hairSprayEntry,
-                    'gel': hairGelEntry,
-                    'lotion': lotionBodyEntry,
-                    'eye': eyeLinerEntry,
-                    'lip': lipstickEntry,
-                },
+    #         # Entry widgets para cada producto
+    #         entries = {
+    #             # Cosmetics
+    #             'cosmetics':{
+    #                 'soap': bathSoapEntry,
+    #                 'cream': faceCreamEntry,
+    #                 'wash': faceWashEntry,
+    #                 'spray': hairSprayEntry,
+    #                 'gel': hairGelEntry,
+    #                 'lotion': lotionBodyEntry,
+    #                 'eye': eyeLinerEntry,
+    #                 'lip': lipstickEntry,
+    #             },
 
-                # Groceries
-                'groceries': {
-                    'rice' : riceEntry,
-                    'oil' : oilEntry,
-                    'eggs' : eggsEntry,
-                    'sugar' : sugarEntry,
-                    'tea' : teaEntry,
-                    'cinnamon' : cinnamonEntry,
-                    'bread' : breadEntry,
-                    'salt' : saltEntry,
-                },
+    #             # Groceries
+    #             'groceries': {
+    #                 'rice' : riceEntry,
+    #                 'oil' : oilEntry,
+    #                 'eggs' : eggsEntry,
+    #                 'sugar' : sugarEntry,
+    #                 'tea' : teaEntry,
+    #                 'cinnamon' : cinnamonEntry,
+    #                 'bread' : breadEntry,
+    #                 'salt' : saltEntry,
+    #             },
 
-                # Drinks
-                'drinks': {
-                    'beer' : beerEntry,
-                    'soda' : sodaEntry,
-                    'water' : waterEntry,
-                    'coffee' : coffeeEntry,
-                    'fanta' : fantaEntry,
-                    'pepsy' : pepsyEntry,
-                    'aquarius' : aquariusEntry,
-                    'lemonade' : lemonadeEntry
-                },
-            }
+    #             # Drinks
+    #             'drinks': {
+    #                 'beer' : beerEntry,
+    #                 'soda' : sodaEntry,
+    #                 'water' : waterEntry,
+    #                 'coffee' : coffeeEntry,
+    #                 'fanta' : fantaEntry,
+    #                 'pepsy' : pepsyEntry,
+    #                 'aquarius' : aquariusEntry,
+    #                 'lemonade' : lemonadeEntry
+    #             },
+    #         }
 
-            # Porcentaje de Impuestos de los productos
-            taxes = {
-                'cosmetics': 15,
-                'groceries' : 21,
-                'drinks' : 10
-            }
+    #         # Porcentaje de Impuestos de los productos
+    #         taxes = {
+    #             'cosmetics': 15,
+    #             'groceries' : 21,
+    #             'drinks' : 10
+    #         }
 
-            # Calcula los totales por segmento y el total general
-            total_cosmetics = sum(prices['cosmetics'][product] * (float(entries['cosmetics'][product].get()) if entries['cosmetics'][product].get() else 0) for product in prices['cosmetics'])
-            total_groceries = sum(prices['groceries'][product] * (float(entries['groceries'][product].get()) if entries['groceries'][product].get() else 0) for product in prices['groceries'])
-            total_drinks = sum(prices['drinks'][product] * (float(entries['drinks'][product].get()) if entries['drinks'][product].get() else 0) for product in prices['drinks'])
+    #         # Calcula los totales por segmento y el total general
+    #         total_cosmetics = sum(prices['cosmetics'][product] * (float(entries['cosmetics'][product].get()) if entries['cosmetics'][product].get() else 0) for product in prices['cosmetics'])
+    #         total_groceries = sum(prices['groceries'][product] * (float(entries['groceries'][product].get()) if entries['groceries'][product].get() else 0) for product in prices['groceries'])
+    #         total_drinks = sum(prices['drinks'][product] * (float(entries['drinks'][product].get()) if entries['drinks'][product].get() else 0) for product in prices['drinks'])
 
-            self.total_general = total_cosmetics + total_groceries + total_drinks
+    #         self.total_general = total_cosmetics + total_groceries + total_drinks
 
-            # Totales sin Impuestos
-            cosmeticPriceEntry.delete(0, tk.END)
-            cosmeticPriceEntry.insert(0, str(round(total_cosmetics, 2)) + ' €')
+    #         # Totales sin Impuestos
+    #         cosmeticPriceEntry.delete(0, tk.END)
+    #         cosmeticPriceEntry.insert(0, str(round(total_cosmetics, 2)) + ' €')
 
-            groceriesPriceEntry.delete(0, tk.END)
-            groceriesPriceEntry.insert(0, str(round(total_groceries, 2)) + ' €')
+    #         groceriesPriceEntry.delete(0, tk.END)
+    #         groceriesPriceEntry.insert(0, str(round(total_groceries, 2)) + ' €')
 
-            drinksPricesEntry.delete(0, tk.END)
-            drinksPricesEntry.insert(0, str(round(total_drinks, 2)) + ' €')
+    #         drinksPricesEntry.delete(0, tk.END)
+    #         drinksPricesEntry.insert(0, str(round(total_drinks, 2)) + ' €')
 
-            print('Total cosmetics is:', round(total_cosmetics, 2))
-            print('Total groceries is:', round(total_groceries, 2))
-            print('Total drinks is:', round(total_drinks, 2))
-            print('Total general is:', round(self.total_general, 2))
+    #         print('Total cosmetics is:', round(total_cosmetics, 2))
+    #         print('Total groceries is:', round(total_groceries, 2))
+    #         print('Total drinks is:', round(total_drinks, 2))
+    #         print('Total general is:', round(self.total_general, 2))
 
-            # Calculo Añadiento impuestos
-            cosmetics_taxes = (total_cosmetics * taxes["cosmetics"]/100)
-            groceries_taxes = (total_groceries * taxes["groceries"]/100)
-            drinks_taxes = (total_drinks * taxes["drinks"]/100)
+    #         # Calculo Añadiento impuestos
+    #         cosmetics_taxes = (total_cosmetics * taxes["cosmetics"]/100)
+    #         groceries_taxes = (total_groceries * taxes["groceries"]/100)
+    #         drinks_taxes = (total_drinks * taxes["drinks"]/100)
 
-            bill_cosmetics = total_cosmetics + cosmetics_taxes
-            bill_groceries = total_groceries + groceries_taxes
-            bill_drinks = total_drinks + drinks_taxes
+    #         bill_cosmetics = total_cosmetics + cosmetics_taxes
+    #         bill_groceries = total_groceries + groceries_taxes
+    #         bill_drinks = total_drinks + drinks_taxes
 
-            self.total_general_taxes = bill_cosmetics + bill_groceries + bill_drinks
+    #         self.total_general_taxes = bill_cosmetics + bill_groceries + bill_drinks
 
-            # Totales con Impuestos
-            cosmeticTaxesEntry.delete(0, tk.END)
-            cosmeticTaxesEntry.insert(0, str(round(cosmetics_taxes, 2)) + ' €')
+    #         # Totales con Impuestos
+    #         cosmeticTaxesEntry.delete(0, tk.END)
+    #         cosmeticTaxesEntry.insert(0, str(round(cosmetics_taxes, 2)) + ' €')
 
-            groceriesTaxesEntry.delete(0, tk.END)
-            groceriesTaxesEntry.insert(0, str(round(groceries_taxes, 2)) + ' €')
+    #         groceriesTaxesEntry.delete(0, tk.END)
+    #         groceriesTaxesEntry.insert(0, str(round(groceries_taxes, 2)) + ' €')
 
-            drinksTaxesEntry.delete(0, tk.END)
-            drinksTaxesEntry.insert(0, str(round(drinks_taxes, 2)) + ' €')
+    #         drinksTaxesEntry.delete(0, tk.END)
+    #         drinksTaxesEntry.insert(0, str(round(drinks_taxes, 2)) + ' €')
 
-            print('Total cosmetics with taxes is:', round(bill_cosmetics, 2))
-            print('Total groceries with taxes is:', round(bill_groceries, 2))
-            print('Total drinks with taxes is:', round(bill_drinks, 2))
-            print('Total to bill is :', round(self.total_general_taxes, 2))
+    #         print('Total cosmetics with taxes is:', round(bill_cosmetics, 2))
+    #         print('Total groceries with taxes is:', round(bill_groceries, 2))
+    #         print('Total drinks with taxes is:', round(bill_drinks, 2))
+    #         print('Total to bill is :', round(self.total_general_taxes, 2))
 
-            return self.total_general, self.total_general_taxes
+    #         return self.total_general, self.total_general_taxes
 
-        def toBill(self):
-            name = nameEntry.get()
-            email = emailEntry.get()
-            cosmetics = cosmeticPriceEntry.get()
-            groceries = groceriesPriceEntry.get()
-            drinks = drinksPricesEntry.get()
-            if name == '' or email == '':
-                messagebox.showerror("Denegado!", "Debe rellenar todos los datos del cliente")
-                print(type(name))
-                print(type(email))
-                print('Entry values of name and email')
-            elif cosmetics == '' or groceries == '' or drinks == '' :
-                print('Entry products')
-                messagebox.showerror("Denegado!", "No hay productos a facturar")
-                print(name)
-                print(email)
-            else:
-                print(round(self.total_general, 2))
-                print(round(self.total_general_taxes, 2))
-                print(billNumber)
-                textarea.delete(1.0, tk.END)
-                textarea.insert(tk.END, "\t\t*** Welcome Customer ***")
-                textarea.insert(tk.END, f'\nBill Number : {billNumber}')
-                # textarea.insert(tk.END, "\t\t*** Welcome Customer ***")
-                # textarea.insert(tk.END, "\t\t*** Welcome Customer ***")
+    #     def toBill(self):
+    #         name = nameEntry.get()
+    #         email = emailEntry.get()
+    #         cosmetics = cosmeticPriceEntry.get()
+    #         groceries = groceriesPriceEntry.get()
+    #         drinks = drinksPricesEntry.get()
+    #         if name == '' or email == '':
+    #             messagebox.showerror("Denegado!", "Debe rellenar todos los datos del cliente")
+    #             print(type(name))
+    #             print(type(email))
+    #             print('Entry values of name and email')
+    #         elif cosmetics == '' or groceries == '' or drinks == '' :
+    #             print('Entry products')
+    #             messagebox.showerror("Denegado!", "No hay productos a facturar")
+    #             print(name)
+    #             print(email)
+    #         else:
+    #             print(round(self.total_general, 2))
+    #             print(round(self.total_general_taxes, 2))
+    #             print(billNumber)
+    #             textarea.delete(1.0, tk.END)
+    #             textarea.insert(tk.END, "\t\t*** Welcome Customer ***")
+    #             textarea.insert(tk.END, f'\nBill Number : {billNumber}')
+    #             # textarea.insert(tk.END, "\t\t*** Welcome Customer ***")
+    #             # textarea.insert(tk.END, "\t\t*** Welcome Customer ***")
 
-            # https://www.youtube.com/watch?v=_qfDSmtn6qA&ab_channel=CodingLifestyle4u
+    #         # https://www.youtube.com/watch?v=_qfDSmtn6qA&ab_channel=CodingLifestyle4u
 
-    billing_instance = BillingApp()
+
+     # Entry widgets para cada producto
+    entries = {
+        # Cosmetics
+        'cosmetics':{
+            'soap': bathSoapEntry,
+            'cream': faceCreamEntry,
+            'wash': faceWashEntry,
+            'spray': hairSprayEntry,
+            'gel': hairGelEntry,
+            'lotion': lotionBodyEntry,
+            'eye': eyeLinerEntry,
+            'lip': lipstickEntry,
+        },
+
+        # Groceries
+        'groceries': {
+            'rice' : riceEntry,
+            'oil' : oilEntry,
+            'eggs' : eggsEntry,
+            'sugar' : sugarEntry,
+            'tea' : teaEntry,
+            'cinnamon' : cinnamonEntry,
+            'bread' : breadEntry,
+            'salt' : saltEntry,
+        },
+
+        # Drinks
+        'drinks': {
+            'beer' : beerEntry,
+            'soda' : sodaEntry,
+            'water' : waterEntry,
+            'coffee' : coffeeEntry,
+            'fanta' : fantaEntry,
+            'pepsy' : pepsyEntry,
+            'aquarius' : aquariusEntry,
+            'lemonade' : lemonadeEntry
+        },
+    }
+
+    # Creando instancia de la clase BillingApp
+    billing_instance = BillingApp(entries, cosmeticPriceEntry, groceriesPriceEntry, drinksPricesEntry, cosmeticTaxesEntry, groceriesTaxesEntry, drinksTaxesEntry, nameEntry, emailEntry, phoneEntry, billEntry, addressEntry, zipEntry, cityEntry, countryEntry, textarea)
 
     # Boton Total
     totalButton = tk.Button(
@@ -1063,7 +1109,7 @@ def create_products_frame(parent, customerFrame):
         bd=0,
         width=12,
         
-        # command=toPrint
+        command=billing_instance.save_bill
     )
     printButton.grid(row=0, column=2, pady=30, padx=20)
 

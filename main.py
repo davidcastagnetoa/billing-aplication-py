@@ -4,6 +4,10 @@ from customerFrame import CustomerFrame
 # from customerFrame import create_customer_frame_top
 from palette import get_colors
 from utils import setup_resize_event
+import webbrowser
+
+def open_web_link():
+    webbrowser.open('http://www.davidcastagneto.es')  # URL webpage
 
 def main():
     # Importar colores
@@ -17,9 +21,9 @@ def main():
 
     root.title("Retail Billing System")
     root.iconbitmap("static/icon.ico")
-    root.geometry("1241x766")
+    root.geometry("1241x781")
     root.config(bg=colors["bg"])
-    root.minsize(1241, 766)
+    root.minsize(1241, 781)
 
 
     # Cabecera título = Label()
@@ -51,6 +55,20 @@ def main():
 
     productFrame = create_products_frame(root, customerFrame)
     productFrame.pack(fill="x", padx=10, pady=10)
+
+    footerFrame = tk.Frame(root, bg=colors["entry"])
+    footerFrame.pack(side="bottom", fill="x")
+
+    footerLabel = tk.Label(
+        footerFrame, 
+        text="Developed by David Castagneto - 2023",
+        font=("titillium web regular", 9),
+        bg=colors["entry"],
+        fg=colors['font'],
+        cursor="hand2"
+        )
+    footerLabel.pack(anchor='e', padx=5)
+    footerLabel.bind("<Button-1>", lambda e: open_web_link())
 
     root.mainloop()
 

@@ -12,7 +12,7 @@ class CustomerFrame:
         self.frame = self.create_customer_frame_top(parent)
 
     def create_customer_frame_top(self, parent):
-        global nameEntry, emailEntry
+        global nameEntry, emailEntry, phoneEntry, billEntry, addressEntry, cityEntry, zipEntry, countryEntry
         # LabelFrame de cliente = tk.LabelFrame()
         customer_details_frame_top = tk.LabelFrame(
             parent,
@@ -157,7 +157,7 @@ class CustomerFrame:
         phoneLabel.grid(row=0, column=0, padx=10)
 
         # PhoneInputField = tk.Entry()
-        phoneEntry = tk.Entry(
+        self.phoneEntry = tk.Entry(
             phone_details_frame,
             font=("titillium web light", 10),
             bg=colors["entry"],
@@ -167,7 +167,7 @@ class CustomerFrame:
             # highlightthickness=0,  # remover highlight
             insertbackground="gray",  # color del cursor
         )
-        phoneEntry.grid(row=0, column=1, padx=6)
+        self.phoneEntry.grid(row=0, column=1, padx=6)
 
         # Factura del cliente, Label
         billLabel = tk.Label(
@@ -180,7 +180,7 @@ class CustomerFrame:
         billLabel.grid(row=0, column=0, padx=10)
 
         # BillInputField = tk.Entry()
-        billEntry = tk.Entry(
+        self.billEntry = tk.Entry(
             invoice_details_frame,
             font=("titillium web light", 10),
             bg=colors["entry"],
@@ -190,7 +190,7 @@ class CustomerFrame:
             # highlightthickness=0,  # remover highlight
             insertbackground="gray",  # color del cursor
         )
-        billEntry.grid(row=0, column=1, padx=6)
+        self.billEntry.grid(row=0, column=1, padx=6)
 
         # Dirección del cliente, Label
         addressLabel = tk.Label(
@@ -203,7 +203,7 @@ class CustomerFrame:
         addressLabel.grid(row=0, column=0, padx=10)
 
         # addressInputField = tk.Entry()
-        addressEntry = tk.Entry(
+        self.addressEntry = tk.Entry(
             address_details_frame,
             font=("titillium web light", 10),
             bg=colors["entry"],
@@ -213,7 +213,7 @@ class CustomerFrame:
             # highlightthickness=0,  # remover highlight
             insertbackground="gray",  # color del cursor
         )
-        addressEntry.grid(row=0, column=1, padx=6, pady=6)
+        self.addressEntry.grid(row=0, column=1, padx=6, pady=6)
 
         # Ciudad del cliente, Label
         cityLabel = tk.Label(
@@ -226,7 +226,7 @@ class CustomerFrame:
         cityLabel.grid(row=0, column=0, padx=10)
 
         # CityInputField = tk.Entry()
-        cityEntry = tk.Entry(
+        self.cityEntry = tk.Entry(
             city_details_frame,
             font=("titillium web light", 10),
             bg=colors["entry"],
@@ -236,7 +236,7 @@ class CustomerFrame:
             # highlightthickness=0,  # remover highlight
             insertbackground="gray",  # color del cursor
         )
-        cityEntry.grid(row=0, column=1, padx=6, pady=6)
+        self.cityEntry.grid(row=0, column=1, padx=6, pady=6)
 
         # CP del cliente, Label
         zipLabel = tk.Label(
@@ -249,7 +249,7 @@ class CustomerFrame:
         zipLabel.grid(row=0, column=0, padx=10)
 
         # ZipInputField = tk.Entry()
-        zipEntry = tk.Entry(
+        self.zipEntry = tk.Entry(
             zip_details_frame,
             font=("titillium web light", 10),
             bg=colors["entry"],
@@ -259,7 +259,7 @@ class CustomerFrame:
             # highlightthickness=0,  # remover highlight
             insertbackground="gray",  # color del cursor
         )
-        zipEntry.grid(row=0, column=1, padx=6, pady=6)
+        self.zipEntry.grid(row=0, column=1, padx=6, pady=6)
 
         # Pais del cliente, Label
         countryLabel = tk.Label(
@@ -272,7 +272,7 @@ class CustomerFrame:
         countryLabel.grid(row=0, column=0, padx=10)
 
         # CountryInputField = tk.Entry()
-        countryEntry = tk.Entry(
+        self.countryEntry = tk.Entry(
             country_details_frame,
             font=("titillium web light", 10),
             bg=colors["entry"],
@@ -282,7 +282,7 @@ class CustomerFrame:
             # highlightthickness=0,  # remover highlight
             insertbackground="gray",  # color del cursor
         )
-        countryEntry.grid(row=0, column=1, padx=6, pady=6)
+        self.countryEntry.grid(row=0, column=1, padx=6, pady=6)
 
         # Boton de busqueda = tk.Button()
         searchButton = tk.Button(
