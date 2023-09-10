@@ -1,10 +1,9 @@
 import tkinter as tk
 from productsFrame import create_products_frame
-from customerFrame import create_customer_frame_top
-# from billMenu import create_billMenu_frame
+from customerFrame import CustomerFrame
+# from customerFrame import create_customer_frame_top
 from palette import get_colors
 from utils import setup_resize_event
-
 
 def main():
     # Importar colores
@@ -37,15 +36,20 @@ def main():
     # Panel de Cliente
     ####################
 
-    customer_details_frame_top = create_customer_frame_top(root)
-    customer_details_frame_top.pack(fill="x", padx=10, pady=10)
+    # customer_details_frame_top = create_customer_frame_top(root)
+    # customer_details_frame_top.pack(fill="x", padx=10, pady=10)
+
+    customerFrame = CustomerFrame(root)
+    customerFrame.frame.pack(fill="x", padx=10, pady=10)
 
     ##################################
     # Panel de Productos y Facturación
     ##################################
 
     # productFrame = create_products_frame(root)
-    productFrame = create_products_frame(root)
+    # productFrame.pack(fill="x", padx=10, pady=10)
+
+    productFrame = create_products_frame(root, customerFrame)
     productFrame.pack(fill="x", padx=10, pady=10)
 
     root.mainloop()
