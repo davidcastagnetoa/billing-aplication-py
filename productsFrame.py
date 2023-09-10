@@ -1,6 +1,9 @@
 import tkinter as tk
 from tkinter import messagebox
 from palette import get_colors
+import random
+
+billNumber = random.randint(28000, 30000)
 
 # Importar colores
 colors = get_colors()
@@ -1008,6 +1011,12 @@ def create_products_frame(parent, customerFrame):
             else:
                 print(round(self.total_general, 2))
                 print(round(self.total_general_taxes, 2))
+                print(billNumber)
+                textarea.delete(1.0, tk.END)
+                textarea.insert(tk.END, "\t\t*** Welcome Customer ***")
+                textarea.insert(tk.END, f'\nBill Number : {billNumber}')
+                # textarea.insert(tk.END, "\t\t*** Welcome Customer ***")
+                # textarea.insert(tk.END, "\t\t*** Welcome Customer ***")
 
             # https://www.youtube.com/watch?v=_qfDSmtn6qA&ab_channel=CodingLifestyle4u
 
