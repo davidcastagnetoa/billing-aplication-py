@@ -944,6 +944,8 @@ def create_products_frame(parent):
         print('Total drinks is:', round(total_drinks, 2))
         print('Total general is:', round(total_general, 2))
 
+    def toBill():
+        print('billing')
 
     # Boton Total
     totalButton = tk.Button(
@@ -971,7 +973,7 @@ def create_products_frame(parent):
         bd=0,
         width=12,
         
-        # command=bill
+        command=toBill
     )
     billButton.grid(row=0, column=1, pady=30, padx=20)
 
