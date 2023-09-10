@@ -1,4 +1,9 @@
 import tkinter as tk
+from palette import get_colors
+
+
+# Importar colores
+colors = get_colors()
 
 
 def create_customer_frame_top(parent):
@@ -7,8 +12,8 @@ def create_customer_frame_top(parent):
         parent,
         text="Customer Details",
         font=("titillium web regular", 14),
-        bg="#101214",
-        fg="white",
+        bg=colors["bg"],
+        fg=colors["font"],
         pady=5,
         bd=0
     )
@@ -25,7 +30,7 @@ def create_customer_frame_top(parent):
 
         
     # Contenedor Entrada Nombre
-    name_details_frame = tk.Frame(customer_details_frame_top, bg="#101214")
+    name_details_frame = tk.Frame(customer_details_frame_top, bg=colors["bg"])
     name_details_frame.grid(
         row=0,
         column=0,
@@ -33,7 +38,7 @@ def create_customer_frame_top(parent):
     )
 
     # Contenedor Entrada Email
-    email_details_frame = tk.Frame(customer_details_frame_top, bg="#101214")
+    email_details_frame = tk.Frame(customer_details_frame_top, bg=colors["bg"])
     email_details_frame.grid(
         row=0,
         column=1,
@@ -41,7 +46,7 @@ def create_customer_frame_top(parent):
     )
 
     # Contenedor Entrada Telefono
-    phone_details_frame = tk.Frame(customer_details_frame_top, bg="#101214")
+    phone_details_frame = tk.Frame(customer_details_frame_top, bg=colors["bg"])
     phone_details_frame.grid(
         row=0,
         column=2,
@@ -49,7 +54,7 @@ def create_customer_frame_top(parent):
     )
 
     # Contenedor Entrada Factura
-    invoice_details_frame = tk.Frame(customer_details_frame_top, bg="#101214")
+    invoice_details_frame = tk.Frame(customer_details_frame_top, bg=colors["bg"])
     invoice_details_frame.grid(
         row=0,
         column=3,
@@ -57,7 +62,7 @@ def create_customer_frame_top(parent):
     )
 
     # Contenedor Entrada Direccion
-    address_details_frame = tk.Frame(customer_details_frame_top, bg="#101214")
+    address_details_frame = tk.Frame(customer_details_frame_top, bg=colors["bg"])
     address_details_frame.grid(
         row=1,
         column=0,
@@ -65,7 +70,7 @@ def create_customer_frame_top(parent):
     )
 
     # Contenedor Entrada Codigo Postal
-    zip_details_frame = tk.Frame(customer_details_frame_top, bg="#101214")
+    zip_details_frame = tk.Frame(customer_details_frame_top, bg=colors["bg"])
     zip_details_frame.grid(
         row=1,
         column=1,
@@ -73,7 +78,7 @@ def create_customer_frame_top(parent):
     )
 
     # Contenedor Entrada Provincia
-    city_details_frame = tk.Frame(customer_details_frame_top, bg="#101214")
+    city_details_frame = tk.Frame(customer_details_frame_top, bg=colors["bg"])
     city_details_frame.grid(
         row=1,
         column=2,
@@ -81,7 +86,7 @@ def create_customer_frame_top(parent):
     )
 
     # Contenedor Entrada Pais
-    country_details_frame = tk.Frame(customer_details_frame_top, bg="#101214")
+    country_details_frame = tk.Frame(customer_details_frame_top, bg=colors["bg"])
     country_details_frame.grid(
         row=1,
         column=3,
@@ -94,18 +99,18 @@ def create_customer_frame_top(parent):
         name_details_frame,
         text="Name",
         font=("titillium web light", 10),
-        bg="#101214",
-        fg="white",
+        bg=colors["bg"],
+        fg=colors["font"],
     )
     nameLabel.grid(row=0, column=0, padx=10)
     # NameInputField = tk.Entry()
     nameEntry = tk.Entry(
         name_details_frame,
         font=("titillium web light", 10),
-        bg="#1c2023",
-        fg="white",
+        bg=colors["entry"],
+        fg=colors["font"],
         width=28,
-        insertbackground="gray",  # color del cursor
+        insertbackground=colors['font'],  # color del cursor
         # bd=0,  # remover borde
         # highlightthickness=0,  # remover highlight
     )
@@ -116,8 +121,8 @@ def create_customer_frame_top(parent):
         email_details_frame,
         text="Email",
         font=("titillium web light", 10),
-        bg="#101214",
-        fg="white",
+        bg=colors["bg"],
+        fg=colors["font"],
     )
     emailLabel.grid(row=0, column=0, padx=10)
 
@@ -125,8 +130,8 @@ def create_customer_frame_top(parent):
     emailEntry = tk.Entry(
         email_details_frame,
         font=("titillium web light", 10),
-        bg="#1c2023",
-        fg="white",
+        bg=colors["entry"],
+        fg=colors["font"],
         width=32,
         # bd=0,  # remover borde
         # highlightthickness=0,  # remover highlight
@@ -139,8 +144,8 @@ def create_customer_frame_top(parent):
         phone_details_frame,
         text="Phone",
         font=("titillium web light", 10),
-        bg="#101214",
-        fg="white",
+        bg=colors["bg"],
+        fg=colors["font"],
     )
     phoneLabel.grid(row=0, column=0, padx=10)
 
@@ -148,8 +153,8 @@ def create_customer_frame_top(parent):
     phoneEntry = tk.Entry(
         phone_details_frame,
         font=("titillium web light", 10),
-        bg="#1c2023",
-        fg="white",
+        bg=colors["entry"],
+        fg=colors["font"],
         width=15,
         # bd=0,  # remover borde
         # highlightthickness=0,  # remover highlight
@@ -162,8 +167,8 @@ def create_customer_frame_top(parent):
         invoice_details_frame,
         text="Invoice number",
         font=("titillium web light", 10),
-        bg="#101214",
-        fg="white",
+        bg=colors["bg"],
+        fg=colors["font"],
     )
     billLabel.grid(row=0, column=0, padx=10)
 
@@ -171,8 +176,8 @@ def create_customer_frame_top(parent):
     billEntry = tk.Entry(
         invoice_details_frame,
         font=("titillium web light", 10),
-        bg="#1c2023",
-        fg="white",
+        bg=colors["entry"],
+        fg=colors["font"],
         width=20,
         # bd=0,  # remover borde
         # highlightthickness=0,  # remover highlight
@@ -185,8 +190,8 @@ def create_customer_frame_top(parent):
         address_details_frame,
         text="Address",
         font=("titillium web light", 10),
-        bg="#101214",
-        fg="white",
+        bg=colors["bg"],
+        fg=colors["font"],
     )
     addressLabel.grid(row=0, column=0, padx=10)
 
@@ -194,8 +199,8 @@ def create_customer_frame_top(parent):
     addressEntry = tk.Entry(
         address_details_frame,
         font=("titillium web light", 10),
-        bg="#1c2023",
-        fg="white",
+        bg=colors["entry"],
+        fg=colors["font"],
         width=44,
         # bd=0,  # remover borde
         # highlightthickness=0,  # remover highlight
@@ -208,8 +213,8 @@ def create_customer_frame_top(parent):
         city_details_frame,
         text="City",
         font=("titillium web light", 10),
-        bg="#101214",
-        fg="white",
+        bg=colors["bg"],
+        fg=colors["font"],
     )
     cityLabel.grid(row=0, column=0, padx=10)
 
@@ -217,8 +222,8 @@ def create_customer_frame_top(parent):
     cityEntry = tk.Entry(
         city_details_frame,
         font=("titillium web light", 10),
-        bg="#1c2023",
-        fg="white",
+        bg=colors["entry"],
+        fg=colors["font"],
         width=16,
         # bd=0,  # remover borde
         # highlightthickness=0,  # remover highlight
@@ -231,8 +236,8 @@ def create_customer_frame_top(parent):
         zip_details_frame,
         text="Zip",
         font=("titillium web light", 10),
-        bg="#101214",
-        fg="white",
+        bg=colors["bg"],
+        fg=colors["font"],
     )
     zipLabel.grid(row=0, column=0, padx=10)
 
@@ -240,8 +245,8 @@ def create_customer_frame_top(parent):
     zipEntry = tk.Entry(
         zip_details_frame,
         font=("titillium web light", 10),
-        bg="#1c2023",
-        fg="white",
+        bg=colors["entry"],
+        fg=colors["font"],
         width=12,
         # bd=0,  # remover borde
         # highlightthickness=0,  # remover highlight
@@ -254,8 +259,8 @@ def create_customer_frame_top(parent):
         country_details_frame,
         text="Country",
         font=("titillium web light", 10),
-        bg="#101214",
-        fg="white",
+        bg=colors["bg"],
+        fg=colors["font"],
     )
     countryLabel.grid(row=0, column=0, padx=10)
 
@@ -263,8 +268,8 @@ def create_customer_frame_top(parent):
     countryEntry = tk.Entry(
         country_details_frame,
         font=("titillium web light", 10),
-        bg="#1c2023",
-        fg="white",
+        bg=colors["entry"],
+        fg=colors["font"],
         width=16,
         # bd=0,  # remover borde
         # highlightthickness=0,  # remover highlight
@@ -276,12 +281,12 @@ def create_customer_frame_top(parent):
     searchButton = tk.Button(
         customer_details_frame_top,
         text="Search",
-        font=("titillium web semibold", 8),
-        bg="#282e32",
-        fg="white",
-        padx=12,
+        font=("titillium web bold", 10),
+        bg=colors['button'],
+        fg=colors["bg"],
+        padx=20,
         bd=0,
     )
-    searchButton.grid(row=0, column=4, padx=20)
+    searchButton.grid(row=0, column=5, padx=10, sticky='nse')
 
     return customer_details_frame_top
