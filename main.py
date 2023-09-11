@@ -1,6 +1,6 @@
 import os
 import tkinter as tk
-from productsFrame import create_products_frame
+from productsFrame import ProductFrame
 from customerFrame import CustomerFrame
 # from customerFrame import create_customer_frame_top
 from palette import get_colors
@@ -44,21 +44,19 @@ def main():
     # Panel de Cliente
     ####################
 
-    # customer_details_frame_top = create_customer_frame_top(root)
-    # customer_details_frame_top.pack(fill="x", padx=10, pady=10)
-
-    customerFrame = CustomerFrame(root)
-    customerFrame.frame.pack(fill="x", padx=10, pady=10)
+    customer_Frame = CustomerFrame(root)
+    customer_Frame.frame.pack(fill="x", padx=10, pady=10)
+    
 
     ##################################
     # Panel de Productos y Facturación
     ##################################
 
-    # productFrame = create_products_frame(root)
-    # productFrame.pack(fill="x", padx=10, pady=10)
-
-    productFrame = create_products_frame(root, customerFrame)
+    # crea instancia para enviar widgets: customerFrame --> productsFrame
+    product_frame_instance = ProductFrame(root, customer_Frame)
+    productFrame = product_frame_instance.create_products_frame(root)
     productFrame.pack(fill="x", padx=10, pady=10)
+    
 
     footerFrame = tk.Frame(root, bg=colors["entry"])
     footerFrame.pack(side="bottom", fill="x")
@@ -79,3 +77,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+# DEPENDECIA CIRCULAR PROBLEMA INVESTIGAR

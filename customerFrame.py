@@ -1,5 +1,8 @@
 import tkinter as tk
 from palette import get_colors
+import os
+from billing_app import BillingSearch
+from productsFrame import ProductFrame
 
 
 # Importar colores
@@ -8,13 +11,27 @@ colors = get_colors()
 
 
 class CustomerFrame:
-    def __init__(self, parent):
+    def __init__(self, parent, product_frame=None):
+        self.nameEntry = tk.Entry(parent)
+        self.emailEntry = tk.Entry(parent)
+        self.phoneEntry = tk.Entry(parent)
+        self.billEntry = tk.Entry(parent)
+        self.addressEntry = tk.Entry(parent)
+        self.cityEntry = tk.Entry(parent)
+        self.zipEntry = tk.Entry(parent)
+        self.countryEntry = tk.Entry(parent)
         self.frame = self.create_customer_frame_top(parent)
 
+        self.product_frame = product_frame
+
+        # crea el frame ProductFrame
+        # self.product_frame = ProductFrame(parent)
+
     def create_customer_frame_top(self, parent):
-        global nameEntry, emailEntry, phoneEntry, billEntry, addressEntry, cityEntry, zipEntry, countryEntry
+        # texarea = productFrame.textarea
+        
         # LabelFrame de cliente = tk.LabelFrame()
-        customer_details_frame_top = tk.LabelFrame(
+        customerFrame = tk.LabelFrame(
             parent,
             text="Customer Details",
             font=("titillium web regular", 14),
@@ -23,20 +40,20 @@ class CustomerFrame:
             pady=5,
             bd=0
         )
-        customer_details_frame_top.pack(fill="x", padx=10)
+        customerFrame.pack(fill="x", padx=10)
 
         # # Configura las columnas del contenedor padre para que se distribuyan equitativamente
         for col in range(4):
-            customer_details_frame_top.columnconfigure(col, weight=1)
+            customerFrame.columnconfigure(col, weight=1)
 
         # # Configura las filas del contenedor padre para que se distribuyan equitativamente
         for row in range(2):
-            customer_details_frame_top.rowconfigure(row, weight=1)
+            customerFrame.rowconfigure(row, weight=1)
 
 
             
         # Contenedor Entrada Nombre
-        name_details_frame = tk.Frame(customer_details_frame_top, bg=colors["bg"])
+        name_details_frame = tk.Frame(customerFrame, bg=colors["bg"])
         name_details_frame.grid(
             row=0,
             column=0,
@@ -44,7 +61,7 @@ class CustomerFrame:
         )
 
         # Contenedor Entrada Email
-        email_details_frame = tk.Frame(customer_details_frame_top, bg=colors["bg"])
+        email_details_frame = tk.Frame(customerFrame, bg=colors["bg"])
         email_details_frame.grid(
             row=0,
             column=1,
@@ -52,7 +69,7 @@ class CustomerFrame:
         )
 
         # Contenedor Entrada Telefono
-        phone_details_frame = tk.Frame(customer_details_frame_top, bg=colors["bg"])
+        phone_details_frame = tk.Frame(customerFrame, bg=colors["bg"])
         phone_details_frame.grid(
             row=0,
             column=2,
@@ -60,7 +77,7 @@ class CustomerFrame:
         )
 
         # Contenedor Entrada Factura
-        invoice_details_frame = tk.Frame(customer_details_frame_top, bg=colors["bg"])
+        invoice_details_frame = tk.Frame(customerFrame, bg=colors["bg"])
         invoice_details_frame.grid(
             row=0,
             column=3,
@@ -68,7 +85,7 @@ class CustomerFrame:
         )
 
         # Contenedor Entrada Direccion
-        address_details_frame = tk.Frame(customer_details_frame_top, bg=colors["bg"])
+        address_details_frame = tk.Frame(customerFrame, bg=colors["bg"])
         address_details_frame.grid(
             row=1,
             column=0,
@@ -76,7 +93,7 @@ class CustomerFrame:
         )
 
         # Contenedor Entrada Codigo Postal
-        zip_details_frame = tk.Frame(customer_details_frame_top, bg=colors["bg"])
+        zip_details_frame = tk.Frame(customerFrame, bg=colors["bg"])
         zip_details_frame.grid(
             row=1,
             column=1,
@@ -84,7 +101,7 @@ class CustomerFrame:
         )
 
         # Contenedor Entrada Provincia
-        city_details_frame = tk.Frame(customer_details_frame_top, bg=colors["bg"])
+        city_details_frame = tk.Frame(customerFrame, bg=colors["bg"])
         city_details_frame.grid(
             row=1,
             column=2,
@@ -92,7 +109,7 @@ class CustomerFrame:
         )
 
         # Contenedor Entrada Pais
-        country_details_frame = tk.Frame(customer_details_frame_top, bg=colors["bg"])
+        country_details_frame = tk.Frame(customerFrame, bg=colors["bg"])
         country_details_frame.grid(
             row=1,
             column=3,
@@ -284,16 +301,21 @@ class CustomerFrame:
         )
         self.countryEntry.grid(row=0, column=1, padx=6, pady=6)
 
+        # Creando instancia de la clase BillingSearch
+        billing_instance = BillingSearch(self.nameEntry, self.emailEntry, self.phoneEntry, self.billEntry, self.addressEntry, self.cityEntry, self.zipEntry, self.countryEntry)
+
         # Boton de busqueda = tk.Button()
         searchButton = tk.Button(
-            customer_details_frame_top,
+            customerFrame,
             text="Search",
             font=("titillium web bold", 10),
             bg=colors['button'],
             fg=colors["bg"],
             padx=20,
             bd=0,
+
+            command=billing_instance.searchBill
         )
         searchButton.grid(row=0, column=5, padx=10, sticky='nse')
 
-        return customer_details_frame_top
+        return customerFrame

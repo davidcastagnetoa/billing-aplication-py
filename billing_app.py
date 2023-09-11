@@ -1,5 +1,45 @@
 import tkinter as tk
+import os
 from tkinter import messagebox
+
+class BillingSearch:
+    def __init__(self, nameEntry, emailEntry, phoneEntry, billEntry, addressEntry, cityEntry, zipEntry, countryEntry):
+        self.nameEntry = nameEntry
+        self.emailEntry = emailEntry
+        self.phoneEntry = phoneEntry
+        self.billEntry = billEntry
+        self.addressEntry = addressEntry
+        self.cityEntry = cityEntry
+        self.zipEntry = zipEntry
+        self.countryEntry = countryEntry
+        # self.textarea = textarea
+    
+    def searchBill(self):
+        name = self.nameEntry.get()
+        email = self.emailEntry.get()
+        phone = self.phoneEntry.get()
+        invoice = self.billEntry.get()
+        address = self.addressEntry.get()
+        cp = self.zipEntry.get()
+        city = self.cityEntry.get()
+        country = self.countryEntry.get()
+        # textarea = self.textarea.get()
+
+        print(name)
+        # print(email)
+        # print(phone)
+        # print(invoice)
+        # print(address)
+        # print(cp)
+        # print(city)
+        # print(country)
+        # print(textarea)
+
+        # for i in os.listdir('bills/'):
+        #     print(i)
+        #     invoiceName = i.split('.')[0]
+        #     if invoiceName == invoice:
+        #         f = open('bills/{i}', 'r')
 
 class BillingApp:
         def __init__(self, entries, cosmeticPriceEntry, groceriesPriceEntry, drinksPricesEntry, cosmeticTaxesEntry, groceriesTaxesEntry, drinksTaxesEntry, nameEntry, emailEntry, phoneEntry, billEntry, addressEntry, zipEntry, cityEntry, countryEntry, textarea):
@@ -12,9 +52,9 @@ class BillingApp:
             self.cosmeticTaxesEntry = cosmeticTaxesEntry
             self.groceriesTaxesEntry = groceriesTaxesEntry
             self.drinksTaxesEntry = drinksTaxesEntry
+
             self.nameEntry = nameEntry
             self.emailEntry = emailEntry
-
             self.phoneEntry = phoneEntry
             self.billEntry = billEntry
             self.addressEntry = addressEntry
@@ -81,9 +121,9 @@ class BillingApp:
 
             for category, products in self.prices.items():
                 for product in products:
-                    value = float(self.entries[category][product].get()) if self.entries[category][product].get() else 0
+                    value = int(self.entries[category][product].get()) if self.entries[category][product].get() else 0
                     if value > 0:
-                        # print(f"Selected product from {category}: {product}, {value}")
+                        print(f"Selected product from {category}: {product}, {value}")
                         selected_products.append((category, product, value))
 
             self.total_general = total_cosmetics + total_groceries + total_drinks
@@ -98,10 +138,10 @@ class BillingApp:
             self.drinksPricesEntry.delete(0, tk.END)
             self.drinksPricesEntry.insert(0, str(round(total_drinks, 2)) + ' €')
 
-            # print('Total cosmetics is:', round(total_cosmetics, 2))
-            # print('Total groceries is:', round(total_groceries, 2))
-            # print('Total drinks is:', round(total_drinks, 2))
-            # print('Total general is:', round(self.total_general, 2))
+            print('Total cosmetics is:', round(total_cosmetics, 2))
+            print('Total groceries is:', round(total_groceries, 2))
+            print('Total drinks is:', round(total_drinks, 2))
+            print('Total general is:', round(self.total_general, 2))
 
             # Calculo Añadiento impuestos
             cosmetics_taxes = (total_cosmetics * taxes["cosmetics"]/100)
@@ -126,10 +166,10 @@ class BillingApp:
             self.drinksTaxesEntry.delete(0, tk.END)
             self.drinksTaxesEntry.insert(0, str(round(drinks_taxes, 2)) + ' €')
 
-            # print('Total cosmetics with taxes is:', round(bill_cosmetics, 2))
-            # print('Total groceries with taxes is:', round(bill_groceries, 2))
-            # print('Total drinks with taxes is:', round(bill_drinks, 2))
-            # print('Total to bill is :', round(self.total_general_taxes, 2))
+            print('Total cosmetics with taxes is:', round(bill_cosmetics, 2))
+            print('Total groceries with taxes is:', round(bill_groceries, 2))
+            print('Total drinks with taxes is:', round(bill_drinks, 2))
+            print('Total to bill is :', round(self.total_general_taxes, 2))
 
             result = {
                 "total_general": self.total_general,
@@ -154,7 +194,7 @@ class BillingApp:
             textarea = self.textarea
             textarea.configure(state='normal')
             result = self.total()
-            if name == '' or email == '':
+            if name == '':
                 messagebox.showerror("Denegado!", "Debe rellenar todos los datos del cliente")
                 print(type(name))
                 print(type(email))
@@ -202,6 +242,10 @@ class BillingApp:
 
                 textarea.insert(tk.END, "\n=====================================================")
                 textarea.insert(tk.END, f'\nTOTAL TO PAY: \t\t\t\t\t\t{total} €')
+
+                # for debugging
+                bill_content = self.textarea.get(1.0, tk.END).strip()
+                print(bill_content)
 
                 textarea.configure(state='disabled')
 
