@@ -83,7 +83,7 @@ class BillingApp:
                 for product in products:
                     value = float(self.entries[category][product].get()) if self.entries[category][product].get() else 0
                     if value > 0:
-                        print(f"Selected product from {category}: {product}, {value}")
+                        # print(f"Selected product from {category}: {product}, {value}")
                         selected_products.append((category, product, value))
 
             self.total_general = total_cosmetics + total_groceries + total_drinks
@@ -137,8 +137,6 @@ class BillingApp:
                 "selected_products": selected_products,
                 "total_taxes": self.total_taxes
             }
-
-            # return self.total_general, self.total_general_taxes, selected_products
             return result
 
         def toBill(self):
@@ -154,29 +152,19 @@ class BillingApp:
             # groceries = self.groceriesPriceEntry.get()
             # drinks = self.drinksPricesEntry.get()
             textarea = self.textarea
-            result = self.total()
             textarea.configure(state='normal')
+            result = self.total()
             if name == '' or email == '':
                 messagebox.showerror("Denegado!", "Debe rellenar todos los datos del cliente")
                 print(type(name))
                 print(type(email))
                 print('Entry values of name and email')
-            # elif cosmetics == '' or groceries == '' or drinks == '' :
             elif result["total_general"] == 0 :
                 print('Entry products')
                 messagebox.showerror("Denegado!", "No hay datos que facturar")
             else:
                 print("The total is : ", round(result["total_general"], 2))
                 print("The total with taxes is : ", round(result["total_general_taxes"], 2))
-
-                # print(invoice)
-                # print(name)
-                # print(email)
-                # print(phone)
-                # print(address)
-                # print(cp)
-                # print(city)
-                # print(country)
                 textarea.delete(1.0, tk.END)
                 textarea.insert(tk.END, f'\n\t\t*** Welcome {name} ***')
                 textarea.insert(tk.END, f'\n\nBill Number : {invoice}')
@@ -218,10 +206,27 @@ class BillingApp:
                 textarea.configure(state='disabled')
 
         def save_bill(self):
-            textarea = self.textarea
+            bill_content = self.textarea.get(1.0, tk.END).strip()
             invoice = self.billEntry.get()
-            resultSave = messagebox.askyesno('Confirm', 'Do you want to save the bill?')
-            if resultSave:
-                bill_content = textarea.get(1.0, tk.END)
-                with open(f'bills/{invoice}.txt', 'w', encoding='utf-8') as file:
-                    file.write(bill_content)
+            total_amount = self.total()["total_general"]
+
+            if not bill_content:
+                messagebox.showinfo("Info", "No text to be saved! First, generate a bill.")
+                return
+
+            if not invoice:
+                messagebox.showerror('Error', 'Invoice number is required!')
+                return
+
+            if total_amount == 0:
+                messagebox.showerror('Error', 'Select values in products!')
+                return
+
+            if not messagebox.askyesno('Confirm', 'Do you want to save the bill?'):
+                return
+
+            with open(f'bills/{invoice}.txt', 'w', encoding='utf-8') as file:
+                file.write(bill_content)
+
+            messagebox.showinfo('Success', f'The invoice number: {invoice} is saved successfully!')
+
