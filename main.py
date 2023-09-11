@@ -1,3 +1,4 @@
+import os
 import tkinter as tk
 from productsFrame import create_products_frame
 from customerFrame import CustomerFrame
@@ -5,6 +6,9 @@ from customerFrame import CustomerFrame
 from palette import get_colors
 from utils import setup_resize_event
 import webbrowser
+
+if not os.path.exists('bills'):
+    os.mkdir("bills")
 
 def open_web_link():
     webbrowser.open('http://www.davidcastagneto.es')  # URL webpage
