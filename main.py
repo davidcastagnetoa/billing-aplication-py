@@ -2,7 +2,6 @@ import os
 import tkinter as tk
 from productsFrame import ProductFrame
 from customerFrame import CustomerFrame
-# from customerFrame import create_customer_frame_top
 from palette import get_colors
 from utils import setup_resize_event
 import webbrowser

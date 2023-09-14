@@ -1,8 +1,7 @@
 import tkinter as tk
 from palette import get_colors
 import os
-from billing_app import BillingSearch
-from productsFrame import ProductFrame
+from productsFrame import ProductFrame, BillingSearch
 
 
 # Importar colores
@@ -25,10 +24,10 @@ class CustomerFrame:
         self.product_frame = product_frame
 
         # crea el frame ProductFrame
-        # self.product_frame = ProductFrame(parent)
+        self.product_frame = ProductFrame(parent, product_frame)
 
     def create_customer_frame_top(self, parent):
-        # texarea = productFrame.textarea
+        # texarea = ProductFrame.textarea
         
         # LabelFrame de cliente = tk.LabelFrame()
         customerFrame = tk.LabelFrame(

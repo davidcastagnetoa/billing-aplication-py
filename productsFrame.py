@@ -2,16 +2,18 @@ import tkinter as tk
 from tkinter import messagebox
 from palette import get_colors
 from billing_app import BillingApp
+import os
 # Importar colores
 colors = get_colors()
 
 
 class ProductFrame:
+    textarea = None
+
     def __init__(self, parent, customer_frame):
 
         self.customer_frame = customer_frame
         # self.frame = self.create_products_frame(parent)
-
 
     def create_products_frame(self, parent):
         nameEntry = self.customer_frame.nameEntry
@@ -981,4 +983,59 @@ class ProductFrame:
         )
         printButton.grid(row=0, column=4, pady=30, padx=20)
 
+        ProductFrame.textarea = textarea
+
         return productFrame
+    
+class BillingSearch:
+    def __init__(self, nameEntry, emailEntry, phoneEntry, billEntry, addressEntry, cityEntry, zipEntry, countryEntry):
+        self.nameEntry = nameEntry
+        self.emailEntry = emailEntry
+        self.phoneEntry = phoneEntry
+        self.billEntry = billEntry
+        self.addressEntry = addressEntry
+        self.cityEntry = cityEntry
+        self.zipEntry = zipEntry
+        self.countryEntry = countryEntry
+    
+    def searchBill(self):
+        name = self.nameEntry.get()
+        email = self.emailEntry.get()
+        phone = self.phoneEntry.get()
+        invoice = self.billEntry.get()
+        address = self.addressEntry.get()
+        cp = self.zipEntry.get()
+        city = self.cityEntry.get()
+        country = self.countryEntry.get()
+        text_content_test = ProductFrame.textarea.get("1.0", tk.END)
+
+        # print(invoice)
+        # print(name)
+        # print(email)
+        # print(phone)
+        # print(address)
+        # print(cp)
+        # print(city)
+        # print(country)
+
+        if not invoice:
+            messagebox.showerror('Error', 'Invoice number not found!')
+            return
+    
+        # Attempt to find and display the bill
+        for bill in os.listdir('bills/'):
+            invoiceName = bill.split('.')[0]
+            if invoiceName == invoice:
+                with open(os.path.join('bills', bill), 'r',encoding='utf-8') as f:
+                    content = f.read()
+                # Unlock the widget tk.Text
+                ProductFrame.textarea.configure(state='normal')
+                # Delete the content of the widget
+                ProductFrame.textarea.delete("1.0", tk.END)
+                # Insert the search content
+                ProductFrame.textarea.insert(tk.END, content)
+                # Lock el widget
+                ProductFrame.textarea.configure(state='disabled')
+                break
+        else:
+            messagebox.showerror('Error', 'Invalid Bill Number')
