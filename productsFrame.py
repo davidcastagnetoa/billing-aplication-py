@@ -949,7 +949,7 @@ class ProductFrame:
             bd=0,
             width=12,
             
-            # command=billing_instance.save_bill
+            command=billing_instance.printBill
         )
         printButton.grid(row=0, column=2, pady=30, padx=20)
 
