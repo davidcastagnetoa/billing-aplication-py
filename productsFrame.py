@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
 from palette import get_colors
-from billing_app import BillingApp
+from backend import BillingApp
 import os
 # Importar colores
 colors = get_colors()
@@ -964,7 +964,7 @@ class ProductFrame:
             bd=0,
             width=12,
 
-            # command=email
+            command=billing_instance.send_mail
         )
         printButton.grid(row=0, column=3, pady=30, padx=20)
 
@@ -999,24 +999,7 @@ class BillingSearch:
         self.countryEntry = countryEntry
     
     def searchBill(self):
-        name = self.nameEntry.get()
-        email = self.emailEntry.get()
-        phone = self.phoneEntry.get()
         invoice = self.billEntry.get()
-        address = self.addressEntry.get()
-        cp = self.zipEntry.get()
-        city = self.cityEntry.get()
-        country = self.countryEntry.get()
-        text_content_test = ProductFrame.textarea.get("1.0", tk.END)
-
-        # print(invoice)
-        # print(name)
-        # print(email)
-        # print(phone)
-        # print(address)
-        # print(cp)
-        # print(city)
-        # print(country)
 
         if not invoice:
             messagebox.showerror('Error', 'Invoice number not found!')
