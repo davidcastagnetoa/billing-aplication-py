@@ -6,12 +6,10 @@ import win32api
 import win32print
 import atexit
 from palette import get_colors
-from utils import setup_resize_event
+# from utils import setup_resize_event
 
 # Ensures that any temporary files created by the program are deleted when the program is finished running.
 TEMP_FILES = []
-
-
 def cleanup_temp_files():
     for file in TEMP_FILES:
         try:
@@ -19,9 +17,7 @@ def cleanup_temp_files():
         except Exception as e:
             print(f"Error al eliminar el archivo temporal {file}: {e}")
 
-
 atexit.register(cleanup_temp_files)
-
 
 class BillingApp:
     def __init__(self, entries, cosmeticPriceEntry, groceriesPriceEntry, drinksPricesEntry, cosmeticTaxesEntry, groceriesTaxesEntry, drinksTaxesEntry, nameEntry, emailEntry, phoneEntry, billEntry, addressEntry, zipEntry, cityEntry, countryEntry, textarea):
