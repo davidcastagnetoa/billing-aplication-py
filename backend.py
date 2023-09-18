@@ -91,8 +91,11 @@ class BillingApp:
         }
 
         # Calcula los totales por segmento y el total general
-        total_cosmetics = sum(self.prices['cosmetics'][product] * (float(self.entries['cosmetics'][product].get(
-        )) if self.entries['cosmetics'][product].get() else 0) for product in self.prices['cosmetics'])
+        total_cosmetics = sum(
+            self.prices['cosmetics'][product] * (float(self.entries['cosmetics'][product].get()) 
+            if self.entries['cosmetics'][product].get() else 0) for product in self.prices['cosmetics']
+        )
+        
         total_groceries = sum(self.prices['groceries'][product] * (float(self.entries['groceries'][product].get(
         )) if self.entries['groceries'][product].get() else 0) for product in self.prices['groceries'])
         total_drinks = sum(self.prices['drinks'][product] * (float(self.entries['drinks'][product].get(
@@ -301,12 +304,12 @@ class BillingApp:
             messagebox.showerror('Error', 'Bill is empty!')
         else:
             root1 = tk.Toplevel()
-            # Solo para desarrollo, borrar en produccion
-            # setup_resize_event(root1)
+            # setup_resize_event(root1) # Solo para desarrollo, borrar en produccion
             root1.config(bg=colors["bg"])
             root1.title('Send Email')
-            root1.geometry("500x620")
+            root1.geometry("500x580")
             root1.resizable(False, False)
+            root1.grab_set() # Bloquea root
             # root1.mainloop()
 
             sender_frame = tk.Frame(root1, bg=colors["bg"])
@@ -331,7 +334,7 @@ class BillingApp:
 
             senderLabel = tk.Label(
                 senderFrame,
-                text="Sender's Email",
+                text="Your Email",
                 font=("titillium web light", 10),
                 bg=colors["bg"],
                 fg=colors["font"]
@@ -360,13 +363,12 @@ class BillingApp:
             )
             passwordLabel = tk.Label(
                 senderFrame,
-                text="Password",
+                text="Your Password",
                 font=("titillium web light", 10),
                 bg=colors["bg"],
                 fg=colors["font"]
             )
             passwordLabel.grid(row=1, column=0, padx=10, pady=8, sticky="w")
-
             passwordEntry = tk.Entry(
                 senderFrame,
                 font=("titillium web light", 10),
@@ -383,6 +385,112 @@ class BillingApp:
                 pady=8,
                 sticky="w"
             )
+
+
+            recipientFrame = tk.LabelFrame(
+                sender_frame,
+                text='Recipient Email',
+                font=("titillium web regular", 14),
+                bg=colors["bg"],
+                fg=colors["font"],
+                bd=0
+            )
+            recipientFrame.pack(padx=10, ipady=15, fill="x")
+            recipientFrame.columnconfigure(0, weight=1)
+
+            recipientLabel = tk.Label(
+                recipientFrame,
+                text="To",
+                font=("titillium web light", 10),
+                bg=colors["bg"],
+                fg=colors["font"]
+            )
+            recipientLabel.grid(
+                row=0,
+                column=0,
+                padx=10,
+                pady=(20, 10),
+                sticky="w"
+            )
+            recipientEntry = tk.Entry(
+                recipientFrame,
+                font=("titillium web light", 10),
+                bg=colors["entry"],
+                fg=colors["font"],
+                width=45,
+                insertbackground=colors['font'],  # color del cursor
+            )
+            recipientEntry.grid(
+                row=0,
+                column=1,
+                padx=8,
+                pady=(20, 0),
+                sticky="w"
+            )
+            messageLabel = tk.Label(
+                recipientFrame,
+                text="Message",
+                font=("titillium web light", 10),
+                bg=colors["bg"],
+                fg=colors["font"]
+            )
+            messageLabel.grid(
+                row=1,
+                column=0,
+                padx=10,
+                pady=(0, 10),
+                sticky="w"
+            )
+            messageTextarea = tk.Text(
+                recipientFrame,
+                font=('titillium web extralight', 10),
+                bg=colors["entry"],
+                fg=colors["font"],
+                # bd=0,
+                insertbackground=colors['font'],
+                width=200,
+                height=10
+            )
+            messageTextarea.grid(row=2, column=0, pady=(0, 15), columnspan=2, sticky="we")
+
+            buttonsFrame = tk.Frame(
+                recipientFrame,
+                bg=colors["bg"],
+                # bg="red",
+            )
+            buttonsFrame.grid(row=3, column=0, columnspan=2, sticky='we')
+            buttonsFrame.columnconfigure(0, weight=1)
+            buttonsFrame.columnconfigure(1, weight=1)
+
+            # Send Email Button
+            sendEmailButton = tk.Button(
+                buttonsFrame, 
+                font=("titillium web semibold", 11),
+                text="Send Email",
+                bg=colors['button'],
+                fg=colors["bg"],
+                # padx= 15,
+                bd=0,
+                width=12,
+                
+                # command=
+            )
+            sendEmailButton.grid(row=0, column=0, pady=5, padx=8, sticky='e')
+
+            # Cancel Button
+            cancelButton = tk.Button(
+                buttonsFrame, 
+                font=("titillium web semibold", 11),
+                text="Cancel",
+                bg=colors['button'],
+                fg=colors["bg"],
+                # padx= 15,
+                bd=0,
+                width=12,
+                
+                # command=
+            )
+            cancelButton.grid(row=0, column=1, pady=5, padx=8, sticky='w')
 
 
 # https://youtu.be/e7eRonTN8DI?si=ffABEqhM6nHo0IN3
