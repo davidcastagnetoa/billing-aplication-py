@@ -912,7 +912,7 @@ class ProductFrame:
         totalButton = tk.Button(
             buttonFrame, 
             font=("titillium web semibold", 11),
-            text="Total",
+            text="Generate",
             bg=colors['button'],
             fg=colors["bg"],
             # padx= 15,
@@ -927,7 +927,7 @@ class ProductFrame:
         billButton = tk.Button(
             buttonFrame, 
             font=("titillium web semibold", 11),
-            text="Bill",
+            text="Save",
             bg=colors['button'],
             fg=colors["bg"],
             # padx= 15,
@@ -954,7 +954,7 @@ class ProductFrame:
         printButton.grid(row=0, column=2, pady=30, padx=20)
 
         # Boton Email
-        printButton = tk.Button(
+        emailButton = tk.Button(
             buttonFrame, 
             font=("titillium web semibold", 11),
             text="Email",
@@ -964,12 +964,12 @@ class ProductFrame:
             bd=0,
             width=12,
 
-            command=billing_instance.send_mail
+            command=billing_instance.email_form
         )
-        printButton.grid(row=0, column=3, pady=30, padx=20)
+        emailButton.grid(row=0, column=3, pady=30, padx=20)
 
         # Boton Limpiar
-        printButton = tk.Button(
+        cleanButton = tk.Button(
             buttonFrame, 
             font=("titillium web semibold", 11),
             text="Clean",
@@ -981,7 +981,7 @@ class ProductFrame:
 
             # command=clean
         )
-        printButton.grid(row=0, column=4, pady=30, padx=20)
+        cleanButton.grid(row=0, column=4, pady=30, padx=20)
 
         ProductFrame.textarea = textarea
 

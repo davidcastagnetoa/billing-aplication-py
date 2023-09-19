@@ -6,12 +6,14 @@ from palette import get_colors
 from utils import setup_resize_event
 import webbrowser
 
-if not os.path.exists('bills'):
+root = tk.Tk()
+
+if not os.path.exists("bills"):
     os.mkdir("bills")
 
 
 def open_web_link():
-    webbrowser.open('http://www.davidcastagneto.es')  # URL webpage
+    webbrowser.open("http://www.davidcastagneto.es")  # URL webpage
 
 
 def main():
@@ -19,7 +21,6 @@ def main():
     colors = get_colors()
 
     # Ventana
-    root = tk.Tk()
 
     # Solo para desarrollo, borrar en produccion
     # setup_resize_event(root)
@@ -36,7 +37,7 @@ def main():
         text="Retail Billing System",
         font=("titillium web semibold", 18),
         bg=colors["bg"],
-        fg=colors['font'],
+        fg=colors["font"],
     )
     headingLabel.pack(padx=0, pady=0, ipadx=10, ipady=10, fill="x")
 
@@ -64,14 +65,16 @@ def main():
         text="Developed by David Castagneto - 2023",
         font=("titillium web regular", 9),
         bg=colors["entry"],
-        fg=colors['font'],
-        cursor="hand2"
+        fg=colors["font"],
+        cursor="hand2",
     )
-    footerLabel.pack(anchor='e', padx=5)
+    footerLabel.pack(anchor="e", padx=5)
     footerLabel.bind("<Button-1>", lambda e: open_web_link())
 
     root.mainloop()
 
+sizeRoot = root.geometry()
+dimensions = sizeRoot.split("+")[0]
 
 if __name__ == "__main__":
     main()
