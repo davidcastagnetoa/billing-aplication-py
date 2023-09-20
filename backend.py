@@ -42,15 +42,8 @@ class BillingApp:
         textarea,
     ):
         # Si tienes algún código de inicialización, ponlo aquí.
-        self.total_general = 0.0
-        self.entries = entries
-        self.cosmeticPriceEntry = cosmeticPriceEntry
-        self.groceriesPriceEntry = groceriesPriceEntry
-        self.drinksPricesEntry = drinksPricesEntry
-        self.cosmeticTaxesEntry = cosmeticTaxesEntry
-        self.groceriesTaxesEntry = groceriesTaxesEntry
-        self.drinksTaxesEntry = drinksTaxesEntry
 
+        # Customer data inputs
         self.nameEntry = nameEntry
         self.emailEntry = emailEntry
         self.phoneEntry = phoneEntry
@@ -60,7 +53,20 @@ class BillingApp:
         self.cityEntry = cityEntry
         self.countryEntry = countryEntry
 
+        # Products Data inputs
+
+        
+        # Bill Menu entries
+        self.cosmeticPriceEntry = cosmeticPriceEntry
+        self.groceriesPriceEntry = groceriesPriceEntry
+        self.drinksPricesEntry = drinksPricesEntry
+        self.cosmeticTaxesEntry = cosmeticTaxesEntry
+        self.groceriesTaxesEntry = groceriesTaxesEntry
+        self.drinksTaxesEntry = drinksTaxesEntry
         self.textarea = textarea
+
+        self.total_general = 0.0
+        self.entries = entries
 
     def total(self):
         # Precios de productos
@@ -593,9 +599,36 @@ class BillingApp:
             )
             cancelButton.grid(row=0, column=1, pady=5, padx=8, sticky="w")
 
+    def clean_fields(self):
+        
+        # Customer data inputs
+        self.nameEntry.delete(0,tk.END)
+        self.emailEntry.delete(0,tk.END)
+        self.phoneEntry.delete(0,tk.END)
+        self.billEntry.delete(0,tk.END)
+        self.addressEntry.delete(0,tk.END)
+        self.zipEntry.delete(0,tk.END)
+        self.cityEntry.delete(0,tk.END)
+        self.countryEntry.delete(0,tk.END)
+
+        # Products Data inputs
+        for category, products in self.entries.items():
+            for product, entry in products.items():
+                entry.delete(0, tk.END)  # Borrar el contenido actual de la Entry
+                entry.insert(0, "0")   # Insertar el nuevo valor "0,0"
+        self.textarea.config(state='normal')
+        self.textarea.delete(1.0,tk.END)
+        self.textarea.config(state='disabled')
+
+        # Bill Menu entries
+        self.cosmeticPriceEntry.delete(0,tk.END)
+        self.groceriesPriceEntry.delete(0,tk.END)
+        self.drinksPricesEntry.delete(0,tk.END)
+        self.cosmeticTaxesEntry.delete(0,tk.END)
+        self.groceriesTaxesEntry.delete(0,tk.END)
+        self.drinksTaxesEntry.delete(0,tk.END)
+        print('Cleaned!')
+
 
 # https://youtu.be/e7eRonTN8DI?si=ffABEqhM6nHo0IN3
-# textarea.insert(tk.END,"hi there!")
-# print("hi there!")
-# textarea.configure(state='disabled')
 # Developed by David Castagneto, version 1.0

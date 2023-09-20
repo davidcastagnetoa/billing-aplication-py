@@ -979,7 +979,7 @@ class ProductFrame:
             bd=0,
             width=12,
 
-            # command=clean
+            command=billing_instance.clean_fields
         )
         cleanButton.grid(row=0, column=4, pady=30, padx=20)
 
