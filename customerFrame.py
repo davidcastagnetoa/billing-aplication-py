@@ -318,3 +318,6 @@ class CustomerFrame:
         searchButton.grid(row=0, column=5, padx=10, sticky='nse')
 
         return customerFrame
+    
+
+# Developed by David Castagneto, version 1.0

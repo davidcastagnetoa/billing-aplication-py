@@ -15,3 +15,5 @@ def get_colors():
 # colors["entry"]
 # colors["bg"]
 # colors["font"]
+
+# Developed by David Castagneto, version 1.0

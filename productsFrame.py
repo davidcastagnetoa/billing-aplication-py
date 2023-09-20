@@ -1022,3 +1022,6 @@ class BillingSearch:
                 break
         else:
             messagebox.showerror('Error', 'Invalid Bill Number')
+
+
+# Developed by David Castagneto, version 1.0

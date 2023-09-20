@@ -387,6 +387,24 @@ class BillingApp:
                 print("Error:", e)
                 messagebox.showerror('Error', 'Something went wrong!, Please try again')
 
+        # Oculta o muestra la contraseña en el Entry.
+        def toggle_password():
+            if passwordEntry.cget("show") == "":
+                passwordEntry.config(show="*")
+                showpasswordButton.config(text="Show Password")
+            else:
+                passwordEntry.config(show="")
+                showpasswordButton.config(text="Hide Password")
+
+        # Desbloquea Sender y Password Entries
+        def changeLoginData():
+            if passwordEntry.cget("state") == "disabled" and senderEntry.cget("state") == "disabled":
+                passwordEntry.config(state='normal')
+                senderEntry.config(state='normal')
+            else:
+                passwordEntry.config(state='disabled')
+                senderEntry.config(state='disabled')
+
         if textarea.get(1.0, tk.END) == "\n":
             messagebox.showerror("Error", "Bill is empty!")
         else:
@@ -444,7 +462,7 @@ class BillingApp:
                 font=("titillium web light", 10),
                 bg=colors["entry"],
                 fg=colors["font"],
-                # show="*",
+                show="*",
                 width=45,
                 insertbackground=colors["font"],  # color del cursor
             )
@@ -469,6 +487,7 @@ class BillingApp:
                 # padx= 15,
                 bd=0,
                 width=18,
+                command=toggle_password
             )
             showpasswordButton.grid(row=0, column=0, pady=5, padx=8)
 
@@ -481,6 +500,7 @@ class BillingApp:
                 # padx= 15,
                 bd=0,
                 width=18,
+                command=changeLoginData
             )
             changeLoginButton.grid(row=0, column=1, pady=5, padx=8)
 
@@ -578,3 +598,4 @@ class BillingApp:
 # textarea.insert(tk.END,"hi there!")
 # print("hi there!")
 # textarea.configure(state='disabled')
+# Developed by David Castagneto, version 1.0

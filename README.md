@@ -1,4 +1,4 @@
-# Mi Aplicación con Tkinter
+# Retailing Billing App with Tkinter
 
 Currently is a simple program made with Tkinter to demonstrate a graphical user interface in Python.
 
@@ -32,6 +32,18 @@ Currently is a simple program made with Tkinter to demonstrate a graphical user 
      ```bash
      .\venv\Scripts\activate
      ```
+
+3. **Create a .env file and add your APP gmail password**
+
+   ```python
+   EMAIL= "YOUR EMAIL" # Your GMail account email address here!
+   PASSWORD="YOUR APP PASSWORD!"   # The app's password for that specific account
+   ```
+
+4. **Install the dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
 ## Execution
 
