@@ -2,18 +2,20 @@ from cx_Freeze import setup, Executable, sys
 
 # Lista de archivos adicionales (ejemplo: imágenes, fuentes, etc.)
 # Si no tienes archivos adicionales, simplemente deja la lista vacía.
-additional_files = ["static/icon.ico"]
+
+additional_files = [("static/icon.ico", "static/icon.ico")] # ruta original del archivo y ruta en la distribución final
 
 build_options = {
-    "base": None,
     "packages": [
-        "pywin32",
-        "python_dotenv",
+        "win32",
+        "dotenv",
+        "cryptography",
     ],  # Puedes añadir paquetes adicionales que no sean detectados automáticamente
     "excludes": [],  # Puedes excluir paquetes que no desees incluir
     "include_files": additional_files,
 }
 
+base = None
 if sys.platform == "win32":
     base = "Win32GUI"
 
@@ -23,15 +25,14 @@ shortcut_table = [
         "DesktopFolder",  # Directory_
         "Retail Billing System",  # Name
         "TARGETDIR",  # Component_
-        "TARGETDIR",  # Component_
-        "[TARGETDIR]\main.exe",  # Target,or # "[TARGETDIR]main.py",     # Target
+        "[TARGETDIR]\main.exe",  # Target
         None,  # Arguments
         None,  # Description
         None,  # Hotkey
-        None,
-        None,
-        None,
-        "TARGETDIR",
+        None,  # Icon
+        None,  # IconIndex
+        None,  # ShowCmd
+        "TARGETDIR",  # WkDir
     )
 ]
 msi_data = {"Shortcut": shortcut_table}

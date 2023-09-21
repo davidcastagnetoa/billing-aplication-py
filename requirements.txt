@@ -1,3 +1,18 @@
 pywin32
 python-dotenv
 cx_Freeze
+cryptography
+
+# Package       Version
+# ------------- -------
+# cffi          1.15.1 
+# cryptography  41.0.4 
+# cx-Freeze     6.15.7 
+# cx-Logging    3.1.0  
+# lief          0.13.2 
+# pip           23.2.1 
+# pycparser     2.21   
+# python-dotenv 1.0.0  
+# pywin32       306    
+# setuptools    68.1.2 
+# wheel         0.41.2 

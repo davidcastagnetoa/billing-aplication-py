@@ -1,6 +1,5 @@
 import tkinter as tk
 from palette import get_colors
-import os
 from productsFrame import ProductFrame, BillingSearch
 
 

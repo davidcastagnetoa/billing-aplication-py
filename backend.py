@@ -5,6 +5,7 @@ from palette import get_colors
 from utils import setup_resize_event
 import base64
 from dotenv import load_dotenv
+from cryptography.fernet import Fernet
 
 # Ensures that any temporary files created by the program are deleted when the program is finished running.
 TEMP_FILES = []
@@ -19,6 +20,56 @@ def cleanup_temp_files():
 
 
 atexit.register(cleanup_temp_files)
+
+# Encrypt the user mail data
+
+
+def generate_key():
+    # Genera una clave y la devuelve. Si deseas usar tu propia clave cambia la variable key por el valor que quieras
+    key = Fernet.generate_key()
+    with open("secret.key", "wb") as key_file:
+        key_file.write(key)
+
+
+def load_key():
+    # Carga la clave desde el archivo `secret.key`
+    return open("secret.key", "rb").read()
+
+
+def encrypt_message(message, key):
+    # Encripta el mensaje.
+    f = Fernet(key)
+    encrypted_message = f.encrypt(message.encode())
+    return encrypted_message
+
+
+def decrypt_message(encrypted_message, key):
+    # Desencripta el mensaje.
+    f = Fernet(key)
+    decrypted_message = f.decrypt(encrypted_message).decode()
+    return decrypted_message
+
+
+# # Solo ejecuta esto una vez para generar una nueva clave
+# generate_key()
+
+# Carga la clave
+key = load_key()
+
+# Supongamos que estas son tus credenciales
+load_dotenv()
+EMAIL = os.getenv("EMAIL")
+PASSWORD = os.getenv("PASSWORD")
+
+# Encripta tus credenciales
+encrypted_username = encrypt_message(EMAIL, key)
+encrypted_password = encrypt_message(PASSWORD, key)
+
+# Ahora puedes guardar estas versiones encriptadas en un archivo
+
+# Luego, cuando necesites usar las credenciales en tu aplicación:
+decrypted_username = decrypt_message(encrypted_username, key)
+decrypted_password = decrypt_message(encrypted_password, key)
 
 
 class BillingApp:
@@ -348,13 +399,16 @@ class BillingApp:
         invoice = self.billEntry.get()
         colors = get_colors()
         textarea = self.textarea
+        # # Loads environment variables from .env into process's enviroment variable list , and encoded password
+        # load_dotenv()
+        # password = os.getenv("PASSWORD")
+        # encoded_password = base64.b64encode(password.encode()).decode()
+        # decoded_password = base64.b64decode(encoded_password).decode()
 
-        # Loads environment variables from .env into process's enviroment variable list , and encoded password
-        load_dotenv()
-        email = os.getenv("EMAIL")
-        password = os.getenv("PASSWORD")
-        encoded_password = base64.b64encode(password.encode()).decode()
-        decoded_password = base64.b64decode(encoded_password).decode()
+        email = EMAIL
+        # Loads encrypted and decrypted password
+        encrypted_password = encrypt_message(PASSWORD, key)
+        decrypted_password = decrypt_message(encrypted_password, key)
 
         if not invoice:
             messagebox.showerror("Error", "Invoice number is required!")
@@ -383,7 +437,7 @@ class BillingApp:
             try:
                 ob = smtplib.SMTP(smtpserver, 587)
                 ob.starttls()
-                ob.login(sender, decoded_password)
+                ob.login(sender, decrypted_password)
                 ob.sendmail(sender, reciever, encoded_message)
                 ob.quit()
                 messagebox.showinfo("Success", f"Bill {invoice} is successfully sent")
@@ -396,7 +450,7 @@ class BillingApp:
             except Exception as e:
                 print("Error:", e)
                 messagebox.showerror("Error", "Something went wrong!, Please try again")
-            
+
             root1.destroy()
 
         # Oculta o muestra la contraseña en el Entry.
@@ -461,7 +515,9 @@ class BillingApp:
                 insertbackground=colors["font"],  # color del cursor
             )
             senderEntry.grid(row=0, column=1, padx=8, pady=(20, 0), sticky="w")
-            senderEntry.insert(0, email)  # Establece el valor predeterminado para senderEntry
+            senderEntry.insert(
+                0, email
+            )  # Establece el valor predeterminado para senderEntry
             senderEntry.config(state="disabled")  # Deshabilita senderEntry
 
             passwordLabel = tk.Label(
@@ -483,7 +539,7 @@ class BillingApp:
             )
             passwordEntry.grid(row=1, column=1, padx=8, pady=8, sticky="w")
             passwordEntry.insert(
-                0, encoded_password
+                0, encrypted_password
             )  # Establece el valor predeterminado para passwordEntry, contraseña codificada
             passwordEntry.config(state="disabled")  # Deshabilita passwordEntry
 
