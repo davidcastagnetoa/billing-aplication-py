@@ -1,6 +1,3 @@
-import tkinter as tk
-
-
 # VERIFICA TAMAÑO DE VENTANA
 def on_resize(event):
     # Imprime las dimensiones actuales de la ventana

@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 # Ensures that any temporary files created by the program are deleted when the program is finished running.
 TEMP_FILES = []
 
+
 def cleanup_temp_files():
     for file in TEMP_FILES:
         try:
@@ -18,7 +19,6 @@ def cleanup_temp_files():
 
 
 atexit.register(cleanup_temp_files)
-
 
 
 class BillingApp:
@@ -55,7 +55,6 @@ class BillingApp:
 
         # Products Data inputs
 
-        
         # Bill Menu entries
         self.cosmeticPriceEntry = cosmeticPriceEntry
         self.groceriesPriceEntry = groceriesPriceEntry
@@ -296,7 +295,9 @@ class BillingApp:
         total_amount = self.total()["total_general"]
 
         if not bill_content:
-            messagebox.showerror("Error", "No text to be saved! First, generate a bill.")
+            messagebox.showerror(
+                "Error", "No text to be saved! First, generate a bill."
+            )
             print("No text to be saved! First, generate a bill.")
             return
 
@@ -347,51 +348,56 @@ class BillingApp:
         invoice = self.billEntry.get()
         colors = get_colors()
         textarea = self.textarea
-        
+
         # Loads environment variables from .env into process's enviroment variable list , and encoded password
         load_dotenv()
+        email = os.getenv("EMAIL")
         password = os.getenv("PASSWORD")
         encoded_password = base64.b64encode(password.encode()).decode()
         decoded_password = base64.b64decode(encoded_password).decode()
 
-        if not invoice :
-            messagebox.showerror('Error', 'Invoice number is required!')
+        if not invoice:
+            messagebox.showerror("Error", "Invoice number is required!")
             return
 
+        # Envia el email con la factura mostrada en pantalla
         def send_email():
-            ## Valorar metodo o funcion para cambiar variable password que por defecto obtiene su valor de la vairable local, con el boton change login data
-            # passwordSender = passwordEntry.get()
-            # password = passwordSender
-
             smtpserver = "smtp.gmail.com"  # SMTP server address (Gmail used here)
             sender = senderEntry.get()
             reciever = recipientEntry.get()
-            message = messageTextarea.get(1.0, tk.END)
-            encoded_message = message.encode('utf-8')
+            subject = f"Invoice number : {invoice}"
+            headers = f"Subject: {subject}\n"
+            message = headers + "\n" + messageTextarea.get(1.0, tk.END)
+            encoded_message = message.encode("utf-8")
 
             if not sender:
-                messagebox.showerror('Error', "The sender's email is required!")
-                print('Error', "The sender's email is required!")
+                messagebox.showerror("Error", "The sender's email is required!")
+                print("Error", "The sender's email is required!")
                 return
-            
+
             if not reciever:
-                messagebox.showerror('Error', "The reciever's email is required!")
-                print('Error', "The reciever's email is required!")
+                messagebox.showerror("Error", "The reciever's email is required!")
+                print("Error", "The reciever's email is required!")
                 return
-            
+
             try:
                 ob = smtplib.SMTP(smtpserver, 587)
                 ob.starttls()
-                ob.login(sender, decoded_password) 
+                ob.login(sender, decoded_password)
                 ob.sendmail(sender, reciever, encoded_message)
                 ob.quit()
-                messagebox.showinfo('Success', f'Bill {invoice} is successfully sent')
+                messagebox.showinfo("Success", f"Bill {invoice} is successfully sent")
             except smtplib.SMTPAuthenticationError as e:
                 print("Authentication Error:", e)
-                messagebox.showerror('Authentication Error', 'Failed to login. Please check your email and password.')
+                messagebox.showerror(
+                    "Authentication Error",
+                    "Failed to login. Please check your email and password.",
+                )
             except Exception as e:
                 print("Error:", e)
-                messagebox.showerror('Error', 'Something went wrong!, Please try again')
+                messagebox.showerror("Error", "Something went wrong!, Please try again")
+            
+            root1.destroy()
 
         # Oculta o muestra la contraseña en el Entry.
         def toggle_password():
@@ -404,12 +410,15 @@ class BillingApp:
 
         # Desbloquea Sender y Password Entries
         def changeLoginData():
-            if passwordEntry.cget("state") == "disabled" and senderEntry.cget("state") == "disabled":
-                passwordEntry.config(state='normal')
-                senderEntry.config(state='normal')
+            if (
+                passwordEntry.cget("state") == "disabled"
+                and senderEntry.cget("state") == "disabled"
+            ):
+                passwordEntry.config(state="normal")
+                senderEntry.config(state="normal")
             else:
-                passwordEntry.config(state='disabled')
-                senderEntry.config(state='disabled')
+                passwordEntry.config(state="disabled")
+                senderEntry.config(state="disabled")
 
         if textarea.get(1.0, tk.END) == "\n":
             messagebox.showerror("Error", "Bill is empty!")
@@ -452,8 +461,8 @@ class BillingApp:
                 insertbackground=colors["font"],  # color del cursor
             )
             senderEntry.grid(row=0, column=1, padx=8, pady=(20, 0), sticky="w")
-            senderEntry.insert(0, 'davidcastagnetoa@gmail.com') # Establece el valor predeterminado para senderEntry
-            senderEntry.config(state='disabled') # Deshabilita senderEntry
+            senderEntry.insert(0, email)  # Establece el valor predeterminado para senderEntry
+            senderEntry.config(state="disabled")  # Deshabilita senderEntry
 
             passwordLabel = tk.Label(
                 senderFrame,
@@ -473,8 +482,10 @@ class BillingApp:
                 insertbackground=colors["font"],  # color del cursor
             )
             passwordEntry.grid(row=1, column=1, padx=8, pady=8, sticky="w")
-            passwordEntry.insert(0, encoded_password) # Establece el valor predeterminado para passwordEntry, contraseña codificada
-            passwordEntry.config(state='disabled') # Deshabilita passwordEntry
+            passwordEntry.insert(
+                0, encoded_password
+            )  # Establece el valor predeterminado para passwordEntry, contraseña codificada
+            passwordEntry.config(state="disabled")  # Deshabilita passwordEntry
 
             loginButtonFrame = tk.Frame(
                 senderFrame,
@@ -493,7 +504,7 @@ class BillingApp:
                 # padx= 15,
                 bd=0,
                 width=18,
-                command=toggle_password
+                command=toggle_password,
             )
             showpasswordButton.grid(row=0, column=0, pady=5, padx=8)
 
@@ -506,7 +517,7 @@ class BillingApp:
                 # padx= 15,
                 bd=0,
                 width=18,
-                command=changeLoginData
+                command=changeLoginData,
             )
             changeLoginButton.grid(row=0, column=1, pady=5, padx=8)
 
@@ -600,34 +611,33 @@ class BillingApp:
             cancelButton.grid(row=0, column=1, pady=5, padx=8, sticky="w")
 
     def clean_fields(self):
-        
         # Customer data inputs
-        self.nameEntry.delete(0,tk.END)
-        self.emailEntry.delete(0,tk.END)
-        self.phoneEntry.delete(0,tk.END)
-        self.billEntry.delete(0,tk.END)
-        self.addressEntry.delete(0,tk.END)
-        self.zipEntry.delete(0,tk.END)
-        self.cityEntry.delete(0,tk.END)
-        self.countryEntry.delete(0,tk.END)
+        self.nameEntry.delete(0, tk.END)
+        self.emailEntry.delete(0, tk.END)
+        self.phoneEntry.delete(0, tk.END)
+        self.billEntry.delete(0, tk.END)
+        self.addressEntry.delete(0, tk.END)
+        self.zipEntry.delete(0, tk.END)
+        self.cityEntry.delete(0, tk.END)
+        self.countryEntry.delete(0, tk.END)
 
         # Products Data inputs
         for category, products in self.entries.items():
             for product, entry in products.items():
                 entry.delete(0, tk.END)  # Borrar el contenido actual de la Entry
-                entry.insert(0, "0")   # Insertar el nuevo valor "0,0"
-        self.textarea.config(state='normal')
-        self.textarea.delete(1.0,tk.END)
-        self.textarea.config(state='disabled')
+                entry.insert(0, "0")  # Insertar el nuevo valor "0,0"
+        self.textarea.config(state="normal")
+        self.textarea.delete(1.0, tk.END)
+        self.textarea.config(state="disabled")
 
         # Bill Menu entries
-        self.cosmeticPriceEntry.delete(0,tk.END)
-        self.groceriesPriceEntry.delete(0,tk.END)
-        self.drinksPricesEntry.delete(0,tk.END)
-        self.cosmeticTaxesEntry.delete(0,tk.END)
-        self.groceriesTaxesEntry.delete(0,tk.END)
-        self.drinksTaxesEntry.delete(0,tk.END)
-        print('Cleaned!')
+        self.cosmeticPriceEntry.delete(0, tk.END)
+        self.groceriesPriceEntry.delete(0, tk.END)
+        self.drinksPricesEntry.delete(0, tk.END)
+        self.cosmeticTaxesEntry.delete(0, tk.END)
+        self.groceriesTaxesEntry.delete(0, tk.END)
+        self.drinksTaxesEntry.delete(0, tk.END)
+        print("Cleaned!")
 
 
 # https://youtu.be/e7eRonTN8DI?si=ffABEqhM6nHo0IN3

@@ -73,6 +73,7 @@ def main():
 
     root.mainloop()
 
+
 sizeRoot = root.geometry()
 dimensions = sizeRoot.split("+")[0]
 

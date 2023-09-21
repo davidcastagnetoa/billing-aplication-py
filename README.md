@@ -52,3 +52,9 @@ Once everything is set up, you can run the application with:
 ```bash
 python main.py
 ```
+
+If you want to create a .exe file run the next command.
+
+```bash
+python setup.py bdist_msi
+```
