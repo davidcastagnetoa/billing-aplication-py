@@ -1,6 +1,8 @@
 import tkinter as tk
 from palette import get_colors
 from productsFrame import ProductFrame, BillingSearch
+import ttkbootstrap as ttk
+from ttkbootstrap.constants import *
 
 
 # Importar colores
@@ -28,14 +30,15 @@ class CustomerFrame:
         # texarea = ProductFrame.textarea
 
         # LabelFrame de cliente = tk.LabelFrame()
-        customerFrame = tk.LabelFrame(
+        customerFrame = ttk.LabelFrame(
             parent,
             text="Customer Details",
-            font=("titillium web regular", 14),
-            bg=colors["bg"],
-            fg=colors["font"],
-            pady=5,
-            bd=0,
+            # font=("titillium web regular", 14),
+            bootstyle="default"
+            # bg=colors["bg"],
+            # fg=colors["font"],
+            # pady=5,
+            # bd=0,
         )
         customerFrame.pack(fill="x", padx=10)
 
@@ -53,15 +56,15 @@ class CustomerFrame:
 
         # Contenedor Entrada Email
         email_details_frame = tk.Frame(customerFrame, bg=colors["bg"])
-        email_details_frame.grid(row=0, column=1, sticky="nsew")
+        email_details_frame.grid(row=0, column=1, sticky="w")
 
         # Contenedor Entrada Telefono
         phone_details_frame = tk.Frame(customerFrame, bg=colors["bg"])
-        phone_details_frame.grid(row=0, column=2, sticky="nsew")
+        phone_details_frame.grid(row=0, column=2, sticky="w")
 
         # Contenedor Entrada Factura
         invoice_details_frame = tk.Frame(customerFrame, bg=colors["bg"])
-        invoice_details_frame.grid(row=0, column=3, sticky="nsew")
+        invoice_details_frame.grid(row=0, column=3, sticky="w")
 
         # Contenedor Entrada Direccion
         address_details_frame = tk.Frame(customerFrame, bg=colors["bg"])
@@ -276,17 +279,29 @@ class CustomerFrame:
         )
 
         # Boton de busqueda = tk.Button()
-        searchButton = tk.Button(
+        # searchButton = tk.Button(
+        #     customerFrame,
+        #     text="Search",
+        #     font=("titillium web bold", 10),
+        #     bg=colors["button"],
+        #     fg=colors["bg"],
+        #     padx=20,
+        #     bd=0,
+        #     command=billing_instance.searchBill,
+        # )
+        # searchButton.grid(row=0, column=5, padx=10, sticky="nse")
+
+        b1 = ttk.Button(
             customerFrame,
             text="Search",
-            font=("titillium web bold", 10),
-            bg=colors["button"],
-            fg=colors["bg"],
-            padx=20,
-            bd=0,
+            bootstyle=PRIMARY,
             command=billing_instance.searchBill,
         )
-        searchButton.grid(row=0, column=5, padx=10, sticky="nse")
+        b1.grid(row=0, column=6, padx=5, pady=10, sticky="nse")
+
+        # b2 = ttk.Button(customerFrame, text="Button 2", bootstyle=(INFO, OUTLINE))
+        # b2.pack(side=LEFT, padx=5, pady=10)
+
 
         return customerFrame
 

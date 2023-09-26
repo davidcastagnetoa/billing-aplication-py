@@ -6,7 +6,13 @@ from palette import get_colors
 from utils import setup_resize_event
 import webbrowser
 
-root = tk.Tk()
+import ttkbootstrap as ttk
+
+# root = tk.Tk()
+
+# new approach
+root = ttk.Window(themename="superhero")
+
 
 if not os.path.exists("bills"):
     os.mkdir("bills")
@@ -28,18 +34,16 @@ def main():
     root.title("Retail Billing System")
     root.iconbitmap("static/icon.ico")
     root.geometry("1241x781")
-    root.config(bg=colors["bg"])
     root.minsize(1241, 781)
 
     # Cabecera título = Label()
-    headingLabel = tk.Label(
+    headingLabel = ttk.Label(
         root,
         text="Retail Billing System",
-        font=("titillium web semibold", 18),
-        bg=colors["bg"],
-        fg=colors["font"],
+        bootstyle="default",
+        font=("titillium web regular",22),
     )
-    headingLabel.pack(padx=0, pady=0, ipadx=10, ipady=10, fill="x")
+    headingLabel.pack(pady=(10, 0), side="top", anchor="center")
 
     ####################
     # Panel de Cliente

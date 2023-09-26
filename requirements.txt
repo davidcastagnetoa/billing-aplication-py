@@ -2,6 +2,7 @@ pywin32
 python-dotenv
 cx_Freeze
 cryptography
+ttkbootstrap
 
 # Package       Version
 # ------------- -------
