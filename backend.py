@@ -50,16 +50,16 @@ def decrypt_message(encrypted_message, key):
     return decrypted_message
 
 
-# # Solo ejecuta esto una vez para generar una nueva clave
+# # Solo ejecuta esto una vez para generar una nueva clave 
 # generate_key()
 
 # Carga la clave
 key = load_key()
 
-# Supongamos que estas son tus credenciales
+# Tus credenciales
 load_dotenv()
-EMAIL = os.getenv("EMAIL")
-PASSWORD = os.getenv("PASSWORD")
+EMAIL = os.getenv("EMAIL", "davidcastagnetoa@gmail.com")
+PASSWORD = os.getenv("PASSWORD", "fghwaehxvalzssbt")
 
 # Encripta tus credenciales
 encrypted_username = encrypt_message(EMAIL, key)
@@ -695,6 +695,4 @@ class BillingApp:
         self.drinksTaxesEntry.delete(0, tk.END)
         print("Cleaned!")
 
-
-# https://youtu.be/e7eRonTN8DI?si=ffABEqhM6nHo0IN3
 # Developed by David Castagneto, version 1.0
