@@ -1,11 +1,14 @@
 import tkinter as tk
 from tkinter import messagebox
-import os, tempfile, win32api, win32print, atexit, smtplib
+import os, platform, tempfile, win32api, win32print, atexit, smtplib
 from palette import get_colors
 from utils import setup_resize_event
+
+import hashlib
 import base64
-from dotenv import load_dotenv
 from cryptography.fernet import Fernet
+
+from dotenv import load_dotenv
 
 # Ensures that any temporary files created by the program are deleted when the program is finished running.
 TEMP_FILES = []
@@ -21,19 +24,45 @@ def cleanup_temp_files():
 
 atexit.register(cleanup_temp_files)
 
+
 # Encrypt the user mail data
+def generate_key(key):
+    # Genera una clave y la devuelve. por defecto Fernet se encarga de generar una clave aleatoria.
+    # key = Fernet.generate_key()
 
+    # Pero Si deseas usar tu propia clave cambia la variable key por el valor que quieras, para ello asigna tu palabra clave a la variable "key
 
-def generate_key():
-    # Genera una clave y la devuelve. Si deseas usar tu propia clave cambia la variable key por el valor que quieras
-    key = Fernet.generate_key()
-    with open("secret.key", "wb") as key_file:
-        key_file.write(key)
+    ## Fernet requiere que key sea de 32 bytes y se codifique a base64
+    # Primero hacemos un hashing de dicho string, usamos SHA-256
+    key_hased = hashlib.sha256(key.encode("utf-8")).digest()
+
+    # Ahora la codificamos a base64
+    key_hased_ecnoded = base64.urlsafe_b64encode(key_hased)
+
+    # Damos nombre al archivo .key
+    filename = "secret.key"
+
+    # En sistemas Linux/Unix/macOS, los archivos que comienzan con un punto son ocultos, por lo que lo renombra
+    if platform.system() != "Windows":
+        filename = "." + filename
+
+    # Si la clave ya existe , quitamos la bandera de atributo s y h para poder reescribirlo, en caso de que queramos cambiar la clave
+    if os.path.exists("secret.key") and platform.system() == "Windows":
+        os.system(f"attrib -s -h {filename}")
+
+    # Crea el archivo
+    with open(filename, "wb") as key_file:
+        key_file.write(key_hased_ecnoded)
+
+    # Si estamos en Windows, marcamos el archivo como oculto utilizando el comando attrib
+    if platform.system() == "Windows":
+        os.system(f"attrib +s +h {filename}")
 
 
 def load_key():
     # Carga la clave desde el archivo `secret.key`
-    return open("secret.key", "rb").read()
+    filename = "secret.key"
+    return open(filename, "rb").read()
 
 
 def encrypt_message(message, key):
@@ -50,16 +79,19 @@ def decrypt_message(encrypted_message, key):
     return decrypted_message
 
 
-# # Solo ejecuta esto una vez para generar una nueva clave 
-# generate_key()
+# Tus credenciales
+load_dotenv()
+EMAIL = os.getenv("EMAIL")
+PASSWORD = os.getenv("PASSWORD")
+KEY = os.getenv("KEY")
+
+# Solo ejecuta esto una vez para generar una nueva clave
+yourKey = KEY
+generate_key(yourKey)
 
 # Carga la clave
 key = load_key()
 
-# Tus credenciales
-load_dotenv()
-EMAIL = os.getenv("EMAIL", "davidcastagnetoa@gmail.com")
-PASSWORD = os.getenv("PASSWORD", "fghwaehxvalzssbt")
 
 # Encripta tus credenciales
 encrypted_username = encrypt_message(EMAIL, key)
@@ -79,9 +111,9 @@ class BillingApp:
         cosmeticPriceEntry,
         groceriesPriceEntry,
         drinksPricesEntry,
-        cosmeticTaxesEntry,
-        groceriesTaxesEntry,
-        drinksTaxesEntry,
+        IVA_TaxesEntry,
+        ICE_TaxesEntry,
+        IRPF_TaxesEntry,
         nameEntry,
         emailEntry,
         phoneEntry,
@@ -110,9 +142,9 @@ class BillingApp:
         self.cosmeticPriceEntry = cosmeticPriceEntry
         self.groceriesPriceEntry = groceriesPriceEntry
         self.drinksPricesEntry = drinksPricesEntry
-        self.cosmeticTaxesEntry = cosmeticTaxesEntry
-        self.groceriesTaxesEntry = groceriesTaxesEntry
-        self.drinksTaxesEntry = drinksTaxesEntry
+        self.IVA_TaxesEntry = IVA_TaxesEntry
+        self.ICE_TaxesEntry = ICE_TaxesEntry
+        self.IRPF_TaxesEntry = IRPF_TaxesEntry
         self.textarea = textarea
 
         self.total_general = 0.0
@@ -157,7 +189,7 @@ class BillingApp:
         }
 
         # Porcentaje de Impuestos de los productos
-        taxes = {"cosmetics": 21, "groceries": 21, "drinks": 15}
+        taxes = {"IVA": 21, "ICE": 15, "IRPF": 8}
 
         # Calcula los totales por segmento y el total general
         total_cosmetics = sum(
@@ -169,7 +201,6 @@ class BillingApp:
             )
             for product in self.prices["cosmetics"]
         )
-
         total_groceries = sum(
             self.prices["groceries"][product]
             * (
@@ -221,33 +252,23 @@ class BillingApp:
         print("Total general is:", round(self.total_general, 2))
 
         # Calculo Añadiento impuestos
-        cosmetics_taxes = total_cosmetics * taxes["cosmetics"] / 100
-        groceries_taxes = total_groceries * taxes["groceries"] / 100
-        drinks_taxes = total_drinks * taxes["drinks"] / 100
+        IVA_taxes = self.total_general * taxes["IVA"] / 100
+        ICE_taxes = self.total_general * taxes["ICE"] / 100
+        IRPF_taxes = self.total_general * taxes["IRPF"] / 100
 
-        self.total_taxes = cosmetics_taxes + groceries_taxes + drinks_taxes
+        self.total_taxes = IVA_taxes + ICE_taxes + IRPF_taxes
 
-        bill_cosmetics = total_cosmetics + cosmetics_taxes
-        bill_groceries = total_groceries + groceries_taxes
-        bill_drinks = total_drinks + drinks_taxes
-
-        self.total_general_taxes = bill_cosmetics + bill_groceries + bill_drinks
+        self.total_general_taxes = self.total_general + self.total_taxes
 
         # Totales con Impuestos
-        self.cosmeticTaxesEntry.delete(0, tk.END)
-        self.cosmeticTaxesEntry.insert(0, str(round(cosmetics_taxes, 2)) + " €")
+        self.IVA_TaxesEntry.delete(0, tk.END)
+        self.IVA_TaxesEntry.insert(0, str(round(IVA_taxes, 2)) + " €")
 
-        self.groceriesTaxesEntry.delete(0, tk.END)
-        self.groceriesTaxesEntry.insert(0, str(round(groceries_taxes, 2)) + " €")
+        self.ICE_TaxesEntry.delete(0, tk.END)
+        self.ICE_TaxesEntry.insert(0, str(round(ICE_taxes, 2)) + " €")
 
-        self.drinksTaxesEntry.delete(0, tk.END)
-        self.drinksTaxesEntry.insert(0, str(round(drinks_taxes, 2)) + " €")
-
-        print("Total cosmetics with taxes is:", round(bill_cosmetics, 2))
-        print("Total groceries with taxes is:", round(bill_groceries, 2))
-        print("Total drinks with taxes is:", round(bill_drinks, 2))
-        print("----------------------------------------------\n")
-        print("Total to bill is :", round(self.total_general_taxes, 2))
+        self.IRPF_TaxesEntry.delete(0, tk.END)
+        self.IRPF_TaxesEntry.insert(0, str(round(IRPF_taxes, 2)) + " €")
 
         result = {
             "total_general": self.total_general,
@@ -690,9 +711,10 @@ class BillingApp:
         self.cosmeticPriceEntry.delete(0, tk.END)
         self.groceriesPriceEntry.delete(0, tk.END)
         self.drinksPricesEntry.delete(0, tk.END)
-        self.cosmeticTaxesEntry.delete(0, tk.END)
-        self.groceriesTaxesEntry.delete(0, tk.END)
-        self.drinksTaxesEntry.delete(0, tk.END)
+        self.IVA_TaxesEntry.delete(0, tk.END)
+        self.ICE_TaxesEntry.delete(0, tk.END)
+        self.IRPF_TaxesEntry.delete(0, tk.END)
         print("Cleaned!")
+
 
 # Developed by David Castagneto, version 1.0

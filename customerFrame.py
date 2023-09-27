@@ -5,6 +5,7 @@ import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 
 
+
 # Importar colores
 colors = get_colors()
 
@@ -29,16 +30,18 @@ class CustomerFrame:
     def create_customer_frame_top(self, parent):
         # texarea = ProductFrame.textarea
 
+        # Crea una instancia de Style
+        # style = ttk.Style(parent)
+
+        # Customize Fonts
+        custom_font_LabelFrame = ('titillium web regular', 14)
+        custom_font_Entry = ('titillium web light', 10)
+
         # LabelFrame de cliente = tk.LabelFrame()
-        customerFrame = ttk.LabelFrame(
+        customerFrame = ttk.Labelframe(
             parent,
             text="Customer Details",
-            # font=("titillium web regular", 14),
-            bootstyle="default"
-            # bg=colors["bg"],
-            # fg=colors["font"],
-            # pady=5,
-            # bd=0,
+            bootstyle="default",
         )
         customerFrame.pack(fill="x", padx=10)
 
@@ -68,201 +71,139 @@ class CustomerFrame:
 
         # Contenedor Entrada Direccion
         address_details_frame = tk.Frame(customerFrame, bg=colors["bg"])
-        address_details_frame.grid(row=1, column=0, sticky="w")
+        address_details_frame.grid(row=1, column=0, sticky="w", pady=(0, 7))
 
         # Contenedor Entrada Codigo Postal
         zip_details_frame = tk.Frame(customerFrame, bg=colors["bg"])
-        zip_details_frame.grid(row=1, column=1, sticky="e")
+        zip_details_frame.grid(row=1, column=1, sticky="e", pady=(0, 7))
 
         # Contenedor Entrada Provincia
         city_details_frame = tk.Frame(customerFrame, bg=colors["bg"])
-        city_details_frame.grid(row=1, column=2, sticky="e")
+        city_details_frame.grid(row=1, column=2, sticky="e", pady=(0, 7))
 
         # Contenedor Entrada Pais
         country_details_frame = tk.Frame(customerFrame, bg=colors["bg"])
-        country_details_frame.grid(row=1, column=3, columnspan=2, sticky="e")
+        country_details_frame.grid(row=1, column=3, columnspan=2, sticky="e", pady=(0, 7))
 
-        # Nombre del cliente = tk.Label()
-        nameLabel = tk.Label(
+        # Nombre del cliente = ttk.Label()
+        nameLabel = ttk.Label(
             name_details_frame,
             text="Name",
-            font=("titillium web light", 10),
-            bg=colors["bg"],
-            fg=colors["font"],
+            font=custom_font_Entry,
         )
         nameLabel.grid(row=0, column=0, padx=10)
 
-        # NameInputField = tk.Entry()
+        # NameInputField = ttk.Entry()
         self.nameEntry = tk.Entry(
             name_details_frame,
-            font=("titillium web light", 10),
-            bg=colors["entry"],
-            fg=colors["font"],
+            font=custom_font_Entry,
             width=28,
-            insertbackground=colors["font"],  # color del cursor
-            # bd=0,  # remover borde
-            # highlightthickness=0,  # remover highlight
         )
-        self.nameEntry.grid(row=0, column=1, padx=6, pady=6, sticky="e")
+        self.nameEntry.grid(row=0, column=1, padx=6, sticky="e")
 
-        # Email del cliente = tk.Label()
-        emailLabel = tk.Label(
+        # Email del cliente = ttk.Label()
+        emailLabel = ttk.Label(
             email_details_frame,
             text="Email",
-            font=("titillium web light", 10),
-            bg=colors["bg"],
-            fg=colors["font"],
+            font=custom_font_Entry,
         )
         emailLabel.grid(row=0, column=0, padx=10)
 
-        # EmailInputField = tk.Entry()
+        # EmailInputField = ttk.Entry()
         self.emailEntry = tk.Entry(
             email_details_frame,
-            font=("titillium web light", 10),
-            bg=colors["entry"],
-            fg=colors["font"],
+            font=custom_font_Entry,
             width=32,
-            # bd=0,  # remover borde
-            # highlightthickness=0,  # remover highlight
-            insertbackground="gray",  # color del cursor
         )
         self.emailEntry.grid(row=0, column=1, padx=6)
 
         # Telefono del cliente, Label
-        phoneLabel = tk.Label(
+        phoneLabel = ttk.Label(
             phone_details_frame,
             text="Phone",
-            font=("titillium web light", 10),
-            bg=colors["bg"],
-            fg=colors["font"],
+            font=custom_font_Entry,
         )
         phoneLabel.grid(row=0, column=0, padx=10)
 
-        # PhoneInputField = tk.Entry()
+        # PhoneInputField = ttk.Entry()
         self.phoneEntry = tk.Entry(
             phone_details_frame,
-            font=("titillium web light", 10),
-            bg=colors["entry"],
-            fg=colors["font"],
-            width=15,
-            # bd=0,  # remover borde
-            # highlightthickness=0,  # remover highlight
-            insertbackground="gray",  # color del cursor
+            font=custom_font_Entry,
         )
         self.phoneEntry.grid(row=0, column=1, padx=6)
 
         # Factura del cliente, Label
-        billLabel = tk.Label(
+        billLabel = ttk.Label(
             invoice_details_frame,
             text="Invoice number",
-            font=("titillium web light", 10),
-            bg=colors["bg"],
-            fg=colors["font"],
+            font=custom_font_Entry
         )
         billLabel.grid(row=0, column=0, padx=10)
 
-        # BillInputField = tk.Entry()
+        # BillInputField = ttk.Entry()
         self.billEntry = tk.Entry(
             invoice_details_frame,
-            font=("titillium web light", 10),
-            bg=colors["entry"],
-            fg=colors["font"],
-            width=20,
-            # bd=0,  # remover borde
-            # highlightthickness=0,  # remover highlight
-            insertbackground="gray",  # color del cursor
+            font=custom_font_Entry
         )
         self.billEntry.grid(row=0, column=1, padx=6)
 
         # Dirección del cliente, Label
-        addressLabel = tk.Label(
+        addressLabel = ttk.Label(
             address_details_frame,
             text="Address",
-            font=("titillium web light", 10),
-            bg=colors["bg"],
-            fg=colors["font"],
+            font=custom_font_Entry
         )
         addressLabel.grid(row=0, column=0, padx=10)
 
-        # addressInputField = tk.Entry()
+        # addressInputField = ttk.Entry()
         self.addressEntry = tk.Entry(
             address_details_frame,
-            font=("titillium web light", 10),
-            bg=colors["entry"],
-            fg=colors["font"],
-            width=44,
-            # bd=0,  # remover borde
-            # highlightthickness=0,  # remover highlight
-            insertbackground="gray",  # color del cursor
+            font=custom_font_Entry
         )
         self.addressEntry.grid(row=0, column=1, padx=6, pady=6)
 
         # Ciudad del cliente, Label
-        cityLabel = tk.Label(
+        cityLabel = ttk.Label(
             city_details_frame,
             text="City",
-            font=("titillium web light", 10),
-            bg=colors["bg"],
-            fg=colors["font"],
+            font=custom_font_Entry
         )
         cityLabel.grid(row=0, column=0, padx=10)
 
-        # CityInputField = tk.Entry()
+        # CityInputField = ttk.Entry()
         self.cityEntry = tk.Entry(
             city_details_frame,
-            font=("titillium web light", 10),
-            bg=colors["entry"],
-            fg=colors["font"],
-            width=16,
-            # bd=0,  # remover borde
-            # highlightthickness=0,  # remover highlight
-            insertbackground="gray",  # color del cursor
+            font=custom_font_Entry
         )
         self.cityEntry.grid(row=0, column=1, padx=6, pady=6)
 
         # CP del cliente, Label
-        zipLabel = tk.Label(
+        zipLabel = ttk.Label(
             zip_details_frame,
             text="Zip",
-            font=("titillium web light", 10),
-            bg=colors["bg"],
-            fg=colors["font"],
+            font=custom_font_Entry
         )
         zipLabel.grid(row=0, column=0, padx=10)
 
-        # ZipInputField = tk.Entry()
+        # ZipInputField = ttk.Entry()
         self.zipEntry = tk.Entry(
             zip_details_frame,
-            font=("titillium web light", 10),
-            bg=colors["entry"],
-            fg=colors["font"],
-            width=12,
-            # bd=0,  # remover borde
-            # highlightthickness=0,  # remover highlight
-            insertbackground="gray",  # color del cursor
+            font=custom_font_Entry
         )
         self.zipEntry.grid(row=0, column=1, padx=6, pady=6)
 
         # Pais del cliente, Label
-        countryLabel = tk.Label(
+        countryLabel = ttk.Label(
             country_details_frame,
             text="Country",
-            font=("titillium web light", 10),
-            bg=colors["bg"],
-            fg=colors["font"],
+            font=custom_font_Entry
         )
         countryLabel.grid(row=0, column=0, padx=10)
 
-        # CountryInputField = tk.Entry()
+        # CountryInputField = ttk.Entry()
         self.countryEntry = tk.Entry(
             country_details_frame,
-            font=("titillium web light", 10),
-            bg=colors["entry"],
-            fg=colors["font"],
-            width=16,
-            # bd=0,  # remover borde
-            # highlightthickness=0,  # remover highlight
-            insertbackground="gray",  # color del cursor
+            font=custom_font_Entry
         )
         self.countryEntry.grid(row=0, column=1, padx=6, pady=6)
 

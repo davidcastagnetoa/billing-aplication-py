@@ -33,8 +33,9 @@ def main():
 
     root.title("Retail Billing System")
     root.iconbitmap("static/icon.ico")
-    root.geometry("1241x781")
-    root.minsize(1241, 781)
+    root.geometry("1241x808")
+    root.resizable(False, False)
+    root.minsize(1241, 808)
 
     # Cabecera título = Label()
     headingLabel = ttk.Label(

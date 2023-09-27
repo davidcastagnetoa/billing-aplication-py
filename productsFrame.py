@@ -4,6 +4,8 @@ from palette import get_colors
 from backend import BillingApp
 import os
 
+from ttkbootstrap.scrolled import ScrolledText
+
 # Importar colores
 colors = get_colors()
 
@@ -53,22 +55,9 @@ class ProductFrame:
         cosmeticsColumn.grid(row=0, column=0, sticky="n")
 
         cosmeticsFrame = ttk.LabelFrame(
-            cosmeticsColumn,
-            text="Cosmetics",
-            bootstyle="default",
+            cosmeticsColumn, text="Cosmetics", bootstyle="default"
         )
         cosmeticsFrame.pack(fill="x")
-
-        ### Listado de cosmeticos
-        # Jabon de baño = tk.Label()
-        bathSoapLabel = tk.Label(
-            cosmeticsFrame,
-            text="Bath Soap",
-            font=("titillium web light", 10),
-            bg=colors["bg"],
-            fg=colors["font"],
-        )
-        bathSoapLabel.grid(row=0, column=0, padx=7, pady=5, sticky="w")
 
         # Funcion para definir efecto placeholder
         def on_entry_click(event, entry, placeholder_text):
@@ -95,6 +84,17 @@ class ProductFrame:
                 "<FocusOut>",
                 lambda event, e=entry, p=placeholder_text: on_focusout(event, e, p),
             )
+
+        ### Listado de cosmeticos
+        # Jabon de baño = tk.Label()
+        bathSoapLabel = tk.Label(
+            cosmeticsFrame,
+            text="Bath Soap",
+            font=("titillium web light", 10),
+            bg=colors["bg"],
+            fg=colors["font"],
+        )
+        bathSoapLabel.grid(row=0, column=0, padx=7, pady=5, sticky="w")
 
         # Jabon de baño = tk.Entry()
         bathSoapEntry = tk.Entry(
@@ -259,7 +259,7 @@ class ProductFrame:
             width=15,
             insertbackground="gray",
         )
-        lipstickEntry.grid(row=7, column=1, padx=9, pady=5)
+        lipstickEntry.grid(row=7, column=1, padx=9, pady=(5, 9))
         setup_entry_placeholder(lipstickEntry, "0")
 
         # columna de Comestibles
@@ -447,7 +447,7 @@ class ProductFrame:
             width=15,
             insertbackground="gray",
         )
-        saltEntry.grid(row=7, column=1, padx=9, pady=5)
+        saltEntry.grid(row=7, column=1, padx=9, pady=(5, 9))
         setup_entry_placeholder(saltEntry, "0")
 
         # columna de bebidas
@@ -635,49 +635,55 @@ class ProductFrame:
             width=15,
             insertbackground="gray",
         )
-        lemonadeEntry.grid(row=7, column=1, padx=9, pady=5)
+        lemonadeEntry.grid(row=7, column=1, padx=9, pady=(5, 9))
         setup_entry_placeholder(lemonadeEntry, "0")
 
         ########################
         # Panel de Factura #
         ########################
 
-        billFrame = tk.Frame(
+        billFrame = ttk.Frame(
             mainFrame,
+            bootstyle="info"
         )
         billFrame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True)
 
         billAreaFrame = tk.Label(
             billFrame,
-            text="Bill Area",
+            text="Preview",
             font=("titillium web regular", 12),
             fg=colors["font"],
-            bg=colors["bg2"],
+            bg="red",
         )
-        billAreaFrame.pack(fill="x", pady=5)
+        billAreaFrame.pack(fill="x")
 
-        scrollbar = tk.Scrollbar(
-            billFrame,
-            orient="vertical",
-            # width=14,
-        )
-        scrollbar.pack(side="right", fill="y")
+        scrollbar = ttk.Scrollbar(billFrame, orient="vertical", bootstyle="default-round")
+        scrollbar.pack(side="right", fill=tk.Y)
 
-        textarea = tk.Text(
+        textarea = ttk.Text(
             billFrame,
             font=("titillium web extralight", 10),
-            bg=colors["entry"],
-            fg=colors["font"],
-            bd=0,
-            width=60,
-            height=14,
-            insertbackground=colors["font"],
+            # bg=colors["entry"],
+            # fg=colors["font"],
+            # bd=0,
+            # insertbackground=colors["font"],
             yscrollcommand=scrollbar.set,
         )
-        textarea.pack()
+        textarea.pack(fill=BOTH, expand=YES)
         textarea.configure(state="disabled")
-
         scrollbar.config(command=textarea.yview)
+
+        ## ScrolledText Optional
+        # textarea = ScrolledText(
+        #     billFrame, 
+        #     padding=5, 
+        #     height=10, 
+        #     autohide=True,
+        #     # yscrollcommand=scrollbar.set,
+        # )
+        # textarea.pack(fill=BOTH, expand=YES)
+        # textarea.configure(state="disabled")
+
 
         ########################
         # Panel de Facturacion #
@@ -697,29 +703,23 @@ class ProductFrame:
         # # # Configura las filas del contenedor padre para que se distribuyan equitativamente
         # for row in range(2):
         #     customerFrame.rowconfigure(row, weight=1)
-        
+
         billMenuFrame.grid_rowconfigure(0, weight=1)
         billMenuFrame.grid_columnconfigure(0, weight=1)
         billMenuFrame.grid_columnconfigure(1, weight=1)
 
         columnsContainer = tk.Frame(billMenuFrame, bg=colors["bg"])
-        columnsContainer.pack(pady=(0,0), padx=(0,0))
+        columnsContainer.pack(pady=(0, 0), padx=(0, 0))
 
-
-        
         # Columnas
         # columna de Precios
         # priceColumn = tk.Frame(billMenuFrame, bg=colors["bg"])
         priceColumn = tk.Frame(columnsContainer, bg=colors["bg"])
-        priceColumn.grid(row=0, column=0, sticky="ew")
+        priceColumn.grid(row=0, column=0, sticky="ew", padx=(0, 22))
 
         # Ajuste para que las columnas del priceColumn se expandan
         priceColumn.grid_columnconfigure(0, weight=1)
         priceColumn.grid_columnconfigure(1, weight=1)
-
-
-
-
 
         # Contenedor Precio Cosmeticos
         cosmeticPrice_frame = tk.Frame(priceColumn, bg=colors["bg"])
@@ -727,23 +727,20 @@ class ProductFrame:
         # Ajuste para que las columnas del cosmeticPrice_frame se expandan
         cosmeticPrice_frame.grid_columnconfigure(0, weight=1)
         cosmeticPrice_frame.grid_columnconfigure(1, weight=1)
-        
+
         # Contenedor Precio Consumibles
         groceriesPrice_frame = tk.Frame(priceColumn, bg=colors["bg"])
         groceriesPrice_frame.grid(row=1, column=0, sticky="w")
         # Ajuste para que las columnas del groceriesPrice_frame se expandan
         groceriesPrice_frame.grid_columnconfigure(0, weight=1)
         groceriesPrice_frame.grid_columnconfigure(1, weight=1)
-        
+
         # Contenedor Precio Bebidas
         drinksPrices_frame = tk.Frame(priceColumn, bg=colors["bg"])
         drinksPrices_frame.grid(row=2, column=0, sticky="w")
         # Ajuste para que las columnas del drinksPrices_frame se expandan
         drinksPrices_frame.grid_columnconfigure(0, weight=1)
         drinksPrices_frame.grid_columnconfigure(1, weight=1)
-
-
-
 
         # Precios de cosmeticos
         cosmeticPriceLabel = tk.Label(
@@ -796,7 +793,7 @@ class ProductFrame:
             fg=colors["font"],
             width=16,
         )
-        drinksPricesLabel.grid(row=2, column=0, padx=7, pady=5, sticky="w")
+        drinksPricesLabel.grid(row=2, column=0, padx=7, pady=(5, 9), sticky="w")
 
         drinksPricesEntry = tk.Entry(
             drinksPrices_frame,
@@ -806,103 +803,90 @@ class ProductFrame:
             width=18,
             insertbackground="gray",
         )
-        drinksPricesEntry.grid(row=2, column=1, padx=9, pady=5, sticky="e")
-
-
-
-
+        drinksPricesEntry.grid(row=2, column=1, padx=9, pady=(5, 9), sticky="e")
 
         # columna de Impuestos
         taxColumn = tk.Frame(columnsContainer, bg=colors["bg"])
-        taxColumn.grid(row=0, column=1, sticky="w")
-
+        taxColumn.grid(row=0, column=1, sticky="w", padx=(22, 0))
 
         # Ajuste para que las columnas del taxColumn se expandan
         taxColumn.grid_columnconfigure(0, weight=1)
         taxColumn.grid_columnconfigure(1, weight=1)
 
-
-
-
-        
         # Contenedor Impuestos Cosmeticos
-        taxCosmetic_frame = tk.Frame(taxColumn, bg=colors["bg"])
-        taxCosmetic_frame.grid(row=0, column=0, sticky="e")
+        IVA_tax_frame = tk.Frame(taxColumn, bg=colors["bg"])
+        IVA_tax_frame.grid(row=0, column=0, sticky="e")
 
         # Contenedor Impuestos Consumibles
-        taxGroceries_frame = tk.Frame(taxColumn, bg=colors["bg"])
-        taxGroceries_frame.grid(row=1, column=0, sticky="e")
+        ICE_tax_frame = tk.Frame(taxColumn, bg=colors["bg"])
+        ICE_tax_frame.grid(row=1, column=0, sticky="e")
 
         # Contenedor Impuestos Bebidas
-        taxDrinks_frame = tk.Frame(taxColumn, bg=colors["bg"])
-        taxDrinks_frame.grid(row=2, column=0, sticky="e")
-        
-
-
-
+        IRPF_tax_frame = tk.Frame(taxColumn, bg=colors["bg"])
+        IRPF_tax_frame.grid(row=2, column=0, sticky="e")
 
         ### Impuestos de cosmeticos
-        cosmeticTaxesLabel = tk.Label(
-            taxCosmetic_frame,
-            text="Cosmetics Taxes",
+        IVA_TaxesLabel = tk.Label(
+            IVA_tax_frame,
+            text="IVA Taxes",
             font=("titillium web light", 10),
             bg=colors["bg"],
             fg=colors["font"],
             width=16,
         )
-        cosmeticTaxesLabel.grid(row=0, column=0, padx=7, pady=5, sticky="w")
+        IVA_TaxesLabel.grid(row=0, column=0, padx=7, pady=5, sticky="w")
 
-        cosmeticTaxesEntry = tk.Entry(
-            taxCosmetic_frame,
+        IVA_TaxesEntry = tk.Entry(
+            IVA_tax_frame,
             font=("titillium web light", 10),
             bg=colors["entry"],
             fg=colors["font"],
             width=18,
             insertbackground="gray",
         )
-        cosmeticTaxesEntry.grid(row=0, column=1, padx=9, pady=5)
+        IVA_TaxesEntry.grid(row=0, column=1, padx=9, pady=5, sticky="e")
 
         # Impuestos de consumibles
-        groceriesTaxesLabel = tk.Label(
-            taxGroceries_frame,
-            text="Groceries Taxes",
+        ICE_TaxesLabel = tk.Label(
+            ICE_tax_frame,
+            text="ICE Taxes",
             font=("titillium web light", 10),
             bg=colors["bg"],
             fg=colors["font"],
             width=16,
         )
-        groceriesTaxesLabel.grid(row=1, column=0, padx=7, pady=5, sticky="w")
+        ICE_TaxesLabel.grid(row=1, column=0, padx=7, pady=5, sticky="w")
 
-        groceriesTaxesEntry = tk.Entry(
-            taxGroceries_frame,
+        ICE_TaxesEntry = tk.Entry(
+            ICE_tax_frame,
             font=("titillium web light", 10),
             bg=colors["entry"],
             fg=colors["font"],
             width=18,
             insertbackground="gray",
         )
-        groceriesTaxesEntry.grid(row=1, column=1, padx=9, pady=5)
+        ICE_TaxesEntry.grid(row=1, column=1, padx=9, pady=5, sticky="e")
 
         # Impuestos de bebidas
-        drinksTaxesLabel = tk.Label(
-            taxDrinks_frame,
-            text="Drinks Taxes",
+        IRPF_TaxesLabel = tk.Label(
+            IRPF_tax_frame,
+            text="IRPF Taxes",
             font=("titillium web light", 10),
             bg=colors["bg"],
             fg=colors["font"],
             width=16,
         )
-        drinksTaxesLabel.grid(row=2, column=0, padx=7, pady=5, sticky="w")
+        IRPF_TaxesLabel.grid(row=2, column=0, padx=7, pady=(5, 9), sticky="w")
 
-        drinksTaxesEntry = tk.Entry(
-            taxDrinks_frame,
+        IRPF_TaxesEntry = tk.Entry(
+            IRPF_tax_frame,
             font=("titillium web light", 10),
             bg=colors["entry"],
             fg=colors["font"],
             width=18,
             insertbackground="gray",
         )
-        drinksTaxesEntry.grid(row=2, column=1, padx=9, pady=5)
+        IRPF_TaxesEntry.grid(row=2, column=1, padx=9, pady=(5, 9), sticky="e")
 
         # billMenuFrame.grid_columnconfigure(2, weight=1)
 
@@ -910,11 +894,11 @@ class ProductFrame:
         # Panel de Botones #
         ####################
 
-        buttonFrame = tk.Frame(
+        buttonFrame = ttk.Frame(
             leftFrame,
-            bg=colors["bg"],
+            bootstyle="default",
         )
-        buttonFrame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+        buttonFrame.pack(side=tk.LEFT, padx=5, pady=1)
 
         ##############################
         # Funcionalidad de los Botones
@@ -965,9 +949,9 @@ class ProductFrame:
             cosmeticPriceEntry,
             groceriesPriceEntry,
             drinksPricesEntry,
-            cosmeticTaxesEntry,
-            groceriesTaxesEntry,
-            drinksTaxesEntry,
+            IVA_TaxesEntry,
+            ICE_TaxesEntry,
+            IRPF_TaxesEntry,
             nameEntry,
             emailEntry,
             phoneEntry,
@@ -979,75 +963,105 @@ class ProductFrame:
             textarea,
         )
 
-        # Boton Total
-        totalButton = tk.Button(
-            buttonFrame,
-            font=("titillium web semibold", 11),
-            text="Generate",
-            bg=colors["button"],
-            fg=colors["bg"],
-            # padx= 15,
-            bd=0,
-            width=12,
-            command=billing_instance.toBill,
-        )
-        totalButton.grid(row=0, column=0, pady=10, padx=20)
+        totalButton = ttk.Button(buttonFrame, bootstyle="success-outline", width=26, text="Generate", command=billing_instance.toBill)
+        billButton = ttk.Button(buttonFrame, bootstyle="default-outline", width=26, text="Save", command=billing_instance.save_bill)
+        printButton = ttk.Button(buttonFrame, bootstyle="default-outline", width=26, text="Print", command=billing_instance.printBill)
+        emailButton = ttk.Button(buttonFrame, bootstyle="default-outline", width=26, text="Email", command=billing_instance.email_form)
+        cleanButton = ttk.Button(buttonFrame, bootstyle="warning-outline", width=26, text="Clean", command=billing_instance.clean_fields)
 
-        # Boton Factura
-        billButton = tk.Button(
-            buttonFrame,
-            font=("titillium web semibold", 11),
-            text="Save",
-            bg=colors["button"],
-            fg=colors["bg"],
-            # padx= 15,
-            bd=0,
-            width=12,
-            command=billing_instance.save_bill,
-        )
-        billButton.grid(row=0, column=1, pady=10, padx=20)
+        # Place the buttons inside the frame using grid
+        button_positions = [
+            (0, 0), (0, 1), (0, 2),
+            (1, 0), (1, 1)
+        ]
 
-        # Boton Imprimir
-        printButton = tk.Button(
-            buttonFrame,
-            font=("titillium web semibold", 11),
-            text="Print",
-            bg=colors["button"],
-            fg=colors["bg"],
-            # padx= 15,
-            bd=0,
-            width=12,
-            command=billing_instance.printBill,
-        )
-        printButton.grid(row=0, column=2, pady=10, padx=20)
+        buttons = [
+            totalButton,
+            billButton,
+            printButton,
+            emailButton,
+            cleanButton
+        ]  # ... add other buttons ...
 
-        # Boton Email
-        emailButton = tk.Button(
-            buttonFrame,
-            font=("titillium web semibold", 11),
-            text="Email",
-            bg=colors["button"],
-            fg=colors["bg"],
-            # padx= 15,
-            bd=0,
-            width=12,
-            command=billing_instance.email_form,
-        )
-        emailButton.grid(row=1, column=0, pady=10, padx=20)
+        # for button, (row, col) in zip(buttons, button_positions):
+        #     button.grid(row=row, column=col, padx=5, pady=8, sticky="nsew")
 
-        # Boton Limpiar
-        cleanButton = tk.Button(
-            buttonFrame,
-            font=("titillium web semibold", 11),
-            text="Clean",
-            bg=colors["button"],
-            fg=colors["bg"],
-            # padx= 15,
-            bd=0,
-            width=12,
-            command=billing_instance.clean_fields,
-        )
-        cleanButton.grid(row=1, column=1, pady=10, padx=20)
+        totalButton.grid(row=0, column=0, padx=(5, 10), pady=8, sticky="nsew")
+        billButton.grid(row=0, column=1, padx=25, pady=8, sticky="nsew")
+        printButton.grid(row=0, column=2, padx=(10, 5), pady=8, sticky="nsew")
+        emailButton.grid(row=1, column=0, padx=(5, 10), pady=8, sticky="nsew")
+        cleanButton.grid(row=1, column=1, padx=25, pady=8, sticky="nsew")
+
+        # Adjust the column and row weights
+        for i in range(3):
+            buttonFrame.columnconfigure(i, weight=1)
+            buttonFrame.rowconfigure(i, weight=1)
+
+        # # Boton Total
+        # totalButton = tk.Button(
+        #     buttonFrame,
+        #     font=("titillium web semibold", 11),
+        #     text="Generate",
+        #     bg=colors["button"],
+        #     fg=colors["bg"],
+        #     # padx= 15,
+        #     bd=0,
+        #     width=12,
+        #     command=billing_instance.toBill,
+        # )
+        # totalButton.grid(row=0, column=0, pady=10, padx=20)
+        # # Boton Factura
+        # billButton = tk.Button(
+        #     buttonFrame,
+        #     font=("titillium web semibold", 11),
+        #     text="Save",
+        #     bg=colors["button"],
+        #     fg=colors["bg"],
+        #     # padx= 15,
+        #     bd=0,
+        #     width=12,
+        #     command=billing_instance.save_bill,
+        # )
+        # billButton.grid(row=0, column=1, pady=10, padx=20)
+        # # Boton Imprimir
+        # printButton = tk.Button(
+        #     buttonFrame,
+        #     font=("titillium web semibold", 11),
+        #     text="Print",
+        #     bg=colors["button"],
+        #     fg=colors["bg"],
+        #     # padx= 15,
+        #     bd=0,
+        #     width=12,
+        #     command=billing_instance.printBill,
+        # )
+        # printButton.grid(row=0, column=2, pady=10, padx=20)
+        # # Boton Email
+        # emailButton = tk.Button(
+        #     buttonFrame,
+        #     font=("titillium web semibold", 11),
+        #     text="Email",
+        #     bg=colors["button"],
+        #     fg=colors["bg"],
+        #     # padx= 15,
+        #     bd=0,
+        #     width=12,
+        #     command=billing_instance.email_form,
+        # )
+        # emailButton.grid(row=1, column=0, pady=10, padx=20)
+        # # Boton Limpiar
+        # cleanButton = tk.Button(
+        #     buttonFrame,
+        #     font=("titillium web semibold", 11),
+        #     text="Clean",
+        #     bg=colors["button"],
+        #     fg=colors["bg"],
+        #     # padx= 15,
+        #     bd=0,
+        #     width=12,
+        #     command=billing_instance.clean_fields,
+        # )
+        # cleanButton.grid(row=1, column=1, pady=10, padx=20)
 
         ProductFrame.textarea = textarea
 
