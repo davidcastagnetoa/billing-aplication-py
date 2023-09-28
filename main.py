@@ -5,14 +5,12 @@ from customerFrame import CustomerFrame
 from palette import get_colors
 from utils import setup_resize_event
 import webbrowser
-
 import ttkbootstrap as ttk
 
-# root = tk.Tk()
-
-# new approach
-root = ttk.Window(themename="superhero")
-
+env_file = ".env"
+if os.path.exists(env_file):
+    os.system(f"attrib +h {env_file}")
+    # Crear una ventana que permita al usuario introducir su mail , contraseña de mail para aplicaciones externas y su palabra clave
 
 if not os.path.exists("bills"):
     os.mkdir("bills")
@@ -21,6 +19,10 @@ if not os.path.exists("bills"):
 def open_web_link():
     webbrowser.open("http://www.davidcastagneto.es")  # URL webpage
 
+# root = tk.Tk()
+
+# new approach
+root = ttk.Window(themename="superhero")
 
 def main():
     # Importar colores
