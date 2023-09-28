@@ -6,11 +6,103 @@ from palette import get_colors
 from utils import setup_resize_event
 import webbrowser
 import ttkbootstrap as ttk
+from ttkbootstrap import Toplevel
+
+# new approach
+# root = tk.Tk()
+root = ttk.Window(themename="superhero")
 
 env_file = ".env"
-if os.path.exists(env_file):
-    os.system(f"attrib +h {env_file}")
+
+
+def createLocalEnv():
+    # Crea el archivo
+    your_Email = emailEntryData.get()
+    your_Password = passwordEntryData.get()
+    your_Keyword = keywordEntryData.get()
+    env_contain = f"EMAIL={your_Email}\nPASSWORD={your_Password}\nKEY={your_Keyword}"
+    with open(env_file, "w") as key_file:
+        key_file.write(env_contain)
+
+    os.system(f"attrib +s +h {env_file}")
+    root2.destroy()
+
+
+if not os.path.exists(env_file):
     # Crear una ventana que permita al usuario introducir su mail , contraseña de mail para aplicaciones externas y su palabra clave
+    root2 = Toplevel(root)
+    # setup_resize_event(root2) # Solo para desarrollo, borrar en produccion
+    # root2.iconphoto()
+    root2.title("Enter your email data")
+    root2.geometry("380x235+650+300")
+    root2.resizable(False, False)
+    root2.grab_set()  # Bloquea root, acceso a ventana padre
+
+    dataFrame = ttk.Frame(root2, bootstyle="default")
+    dataFrame.pack(ipadx=10, ipady=10, pady=(12, 0), padx=10, fill="x")
+
+    # Email
+
+    emailDataFrame = ttk.Frame(dataFrame, bootstyle="default")
+    emailDataFrame.pack(padx=10, ipady=10, fill="x")
+    emailDataFrame.columnconfigure(0, weight=1)
+    emailDataFrame.columnconfigure(1, weight=1)
+
+    emailLabelData = tk.Label(emailDataFrame, text="Enter your email :")
+    emailLabelData.grid(row=0, column=0, sticky="w")
+
+    emailEntryData = tk.Entry(emailDataFrame, width=30)
+    emailEntryData.grid(row=0, column=1, sticky="e")
+
+    # Password
+
+    passwordDataFrame = ttk.Frame(dataFrame, bootstyle="default")
+    passwordDataFrame.pack(padx=10, ipady=10, fill="x")
+    passwordDataFrame.columnconfigure(0, weight=1)
+    passwordDataFrame.columnconfigure(1, weight=1)
+
+    passwordLabelData = tk.Label(passwordDataFrame, text="Enter your password :")
+    passwordLabelData.grid(row=0, column=0, sticky="w")
+
+    passwordEntryData = tk.Entry(passwordDataFrame, show="*", width=30)
+    passwordEntryData.grid(row=0, column=1, sticky="e")
+
+    # Keyword
+
+    keywordDataFrame = ttk.Frame(dataFrame, bootstyle="default")
+    keywordDataFrame.pack(padx=10, ipady=10, fill="x")
+    keywordDataFrame.columnconfigure(0, weight=1)
+    keywordDataFrame.columnconfigure(1, weight=1)
+
+    keywordLabelData = tk.Label(keywordDataFrame, text="Enter your password :")
+    keywordLabelData.grid(row=0, column=0, sticky="w")
+
+    keywordEntryData = tk.Entry(keywordDataFrame, width=30)
+    keywordEntryData.grid(row=0, column=1, sticky="e")
+
+    # Buttons
+
+    buttonsFrame = ttk.Frame(dataFrame, bootstyle="default")
+    buttonsFrame.pack(padx=10, ipady=10, fill="x")
+    buttonsFrame.columnconfigure(0, weight=1)
+    buttonsFrame.columnconfigure(1, weight=1)
+
+    saveData = ttk.Button(
+        buttonsFrame, 
+        bootstyle="success", 
+        text="Save Data", 
+        command=createLocalEnv
+    )
+    saveData.pack(fill="x", pady=(12, 0))
+
+    cancelButton = ttk.Button(
+        buttonsFrame, 
+        bootstyle="secondary", 
+        text="Cancel", 
+        command=root2.destroy
+    )
+    cancelButton.pack(fill="x", pady=(12, 0))
+
 
 if not os.path.exists("bills"):
     os.mkdir("bills")
@@ -19,10 +111,6 @@ if not os.path.exists("bills"):
 def open_web_link():
     webbrowser.open("http://www.davidcastagneto.es")  # URL webpage
 
-# root = tk.Tk()
-
-# new approach
-root = ttk.Window(themename="superhero")
 
 def main():
     # Importar colores
@@ -36,7 +124,7 @@ def main():
     root.title("Retail Billing System")
     root.iconbitmap("static/icon.ico")
     root.geometry("1241x808")
-    root.resizable(False, False)
+    # root.resizable(False, False)
     root.minsize(1241, 808)
 
     # Cabecera título = Label()
@@ -44,7 +132,7 @@ def main():
         root,
         text="Retail Billing System",
         bootstyle="default",
-        font=("titillium web regular",22),
+        font=("titillium web regular", 22),
     )
     headingLabel.pack(pady=(10, 0), side="top", anchor="center")
 

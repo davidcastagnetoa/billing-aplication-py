@@ -5,3 +5,4 @@ dist/
 bills/*
 .env
 secret.key
+golden_ratio.py

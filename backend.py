@@ -3,6 +3,8 @@ from tkinter import messagebox
 import os, platform, tempfile, win32api, win32print, atexit, smtplib
 from palette import get_colors
 from utils import setup_resize_event
+import ttkbootstrap as ttk
+from ttkbootstrap import Toplevel
 
 import hashlib
 import base64
@@ -86,23 +88,11 @@ PASSWORD = os.getenv("PASSWORD")
 KEY = os.getenv("KEY")
 
 # Solo ejecuta esto una vez para generar una nueva clave
-yourKey = KEY
+yourKey = KEY if KEY else "default_word"
 generate_key(yourKey)
 
 # Carga la clave
 key = load_key()
-
-
-# Encripta tus credenciales
-encrypted_username = encrypt_message(EMAIL, key)
-encrypted_password = encrypt_message(PASSWORD, key)
-
-# Ahora puedes guardar estas versiones encriptadas en un archivo
-
-# Luego, cuando necesites usar las credenciales en tu aplicación:
-decrypted_username = decrypt_message(encrypted_username, key)
-decrypted_password = decrypt_message(encrypted_password, key)
-
 
 class BillingApp:
     def __init__(
@@ -420,16 +410,10 @@ class BillingApp:
         invoice = self.billEntry.get()
         colors = get_colors()
         textarea = self.textarea
-        # # Loads environment variables from .env into process's enviroment variable list , and encoded password
-        # load_dotenv()
-        # password = os.getenv("PASSWORD")
-        # encoded_password = base64.b64encode(password.encode()).decode()
-        # decoded_password = base64.b64decode(encoded_password).decode()
 
-        email = EMAIL
-        # Loads encrypted and decrypted password
-        encrypted_password = encrypt_message(PASSWORD, key)
-        decrypted_password = decrypt_message(encrypted_password, key)
+        email = EMAIL if EMAIL else "Enter your email"
+
+        passwordData = encrypt_message(PASSWORD, key) if PASSWORD else "Enter your Password"
 
         if not invoice:
             messagebox.showerror("Error", "Invoice number is required!")
@@ -438,7 +422,10 @@ class BillingApp:
         # Envia el email con la factura mostrada en pantalla
         def send_email():
             smtpserver = "smtp.gmail.com"  # SMTP server address (Gmail used here)
-            sender = senderEntry.get()
+            sender = EMAIL if EMAIL else senderEntry.get()
+            encrypted_password = encrypt_message(PASSWORD, key) if PASSWORD else encrypt_message(passwordEntry.get(), key)
+            decrypted_password = decrypt_message(encrypted_password, key)
+            passwordSender = decrypted_password
             reciever = recipientEntry.get()
             subject = f"Invoice number : {invoice}"
             headers = f"Subject: {subject}\n"
@@ -458,7 +445,7 @@ class BillingApp:
             try:
                 ob = smtplib.SMTP(smtpserver, 587)
                 ob.starttls()
-                ob.login(sender, decrypted_password)
+                ob.login(sender, passwordSender)
                 ob.sendmail(sender, reciever, encoded_message)
                 ob.quit()
                 messagebox.showinfo("Success", f"Bill {invoice} is successfully sent")
@@ -484,37 +471,45 @@ class BillingApp:
                 showpasswordButton.config(text="Hide Password")
 
         # Desbloquea Sender y Password Entries
-        def changeLoginData():
-            if (
-                passwordEntry.cget("state") == "disabled"
-                and senderEntry.cget("state") == "disabled"
-            ):
-                passwordEntry.config(state="normal")
-                senderEntry.config(state="normal")
-            else:
-                passwordEntry.config(state="disabled")
-                senderEntry.config(state="disabled")
+        # def ViewLoginData():
+        #     if (passwordEntry.cget("state") == "disabled" and senderEntry.cget("state") == "disabled"):
+        #         passwordEntry.config(state="normal")
+        #         senderEntry.config(state="normal")
+        #     else:
+        #         passwordEntry.config(state="disabled")
+        #         senderEntry.config(state="disabled")
+
+        # Cambia los datos de acceso del usuario
+        def changeUserData():
+                env_file = ".env"
+                os.system(f"attrib -s -h {env_file}")
+                your_Email = senderEntry.get()
+                your_Password = passwordEntry.get()
+                env_contain = f"EMAIL={your_Email}\nPASSWORD={your_Password}\nKEY={yourKey}"
+                with open(env_file, "w") as key_file:
+                    key_file.write(env_contain)
+                os.system(f"attrib +s +h {env_file}")
+
+            
 
         if textarea.get(1.0, tk.END) == "\n":
             messagebox.showerror("Error", "Bill is empty!")
         else:
-            root1 = tk.Toplevel()
+            root1 = Toplevel()
             # setup_resize_event(root1) # Solo para desarrollo, borrar en produccion
-            root1.config(bg=colors["bg"])
+            # root1.iconphoto()
             root1.title("Send Email")
-            root1.geometry("500x620+650+300")
+            root1.geometry("488x790+650+300")
             root1.resizable(False, False)
             root1.grab_set()  # Bloquea root, acceso a ventana padre
 
-            sender_frame = tk.Frame(root1, bg=colors["bg"])
-            sender_frame.pack(pady=(30, 0), ipadx=10, ipady=10, padx=10, fill="x")
-            senderFrame = tk.LabelFrame(
+            sender_frame = ttk.Frame(root1, bootstyle="default")
+            sender_frame.pack(ipadx=10, ipady=10, pady=(12, 0), fill="x")
+            senderFrame = ttk.Labelframe(
                 sender_frame,
-                text="Send Email",
-                font=("titillium web regular", 14),
-                bg=colors["bg"],
-                fg=colors["font"],
-                bd=0,
+                text="Sender",
+                # font=("titillium web regular", 12),
+                bootstyle="default"
             )
             senderFrame.pack(padx=10, ipady=10, fill="x")
             senderFrame.columnconfigure(0, weight=1)
@@ -539,7 +534,7 @@ class BillingApp:
             senderEntry.insert(
                 0, email
             )  # Establece el valor predeterminado para senderEntry
-            senderEntry.config(state="disabled")  # Deshabilita senderEntry
+            # senderEntry.config(state="disabled")  # Deshabilita senderEntry
 
             passwordLabel = tk.Label(
                 senderFrame,
@@ -560,9 +555,9 @@ class BillingApp:
             )
             passwordEntry.grid(row=1, column=1, padx=8, pady=8, sticky="w")
             passwordEntry.insert(
-                0, encrypted_password
+                0, passwordData
             )  # Establece el valor predeterminado para passwordEntry, contraseña codificada
-            passwordEntry.config(state="disabled")  # Deshabilita passwordEntry
+            # passwordEntry.config(state="disabled")  # Deshabilita passwordEntry
 
             loginButtonFrame = tk.Frame(
                 senderFrame,
@@ -594,19 +589,17 @@ class BillingApp:
                 # padx= 15,
                 bd=0,
                 width=18,
-                command=changeLoginData,
+                command=changeUserData,
             )
             changeLoginButton.grid(row=0, column=1, pady=5, padx=8)
 
-            recipientFrame = tk.LabelFrame(
+            recipientFrame = ttk.Labelframe(
                 sender_frame,
                 text="Recipient Email",
-                font=("titillium web regular", 14),
-                bg=colors["bg"],
-                fg=colors["font"],
-                bd=0,
+                # font=("titillium web regular", 14),
+                bootstyle="default"
             )
-            recipientFrame.pack(padx=10, ipady=15, fill="x")
+            recipientFrame.pack(padx=10, pady=(20,0), ipady=5, fill="x")
             recipientFrame.columnconfigure(0, weight=1)
             recipientLabel = tk.Label(
                 recipientFrame,
@@ -640,8 +633,8 @@ class BillingApp:
                 fg=colors["font"],
                 # bd=0,
                 insertbackground=colors["font"],
-                width=200,
-                height=10,
+                # width=220,
+                height=20,
             )
             messageTextarea.grid(
                 row=2, column=0, pady=(0, 15), columnspan=2, sticky="we"
@@ -650,42 +643,37 @@ class BillingApp:
             messageTextarea.delete(1.0, tk.END)
             messageTextarea.insert(tk.END, textarea.get(1.0, tk.END).replace("=", ""))
             messageTextarea.configure(state="disabled")
-            buttonsFrame = tk.Frame(
+            buttonsFrame = ttk.Frame(
                 recipientFrame,
-                bg=colors["bg"],
-                # bg="red",
+                bootstyle="default"
             )
             buttonsFrame.grid(row=3, column=0, columnspan=2, sticky="we")
             buttonsFrame.columnconfigure(0, weight=1)
             buttonsFrame.columnconfigure(1, weight=1)
 
             # Send Email Button
-            sendEmailButton = tk.Button(
+            sendEmailButton = ttk.Button(
                 buttonsFrame,
-                font=("titillium web semibold", 11),
+                bootstyle="success",
+                # image=sendIcon,
+                # compound='left',
+                # style="SendBtn.TButton",
                 text="Send Email",
-                bg=colors["button"],
-                fg=colors["bg"],
-                # padx= 15,
-                bd=0,
-                width=12,
                 command=send_email,
             )
-            sendEmailButton.grid(row=0, column=0, pady=5, padx=8, sticky="e")
+            sendEmailButton.grid(row=0, column=0, pady=3, padx=8, sticky="e")
 
             # Cancel Button
-            cancelButton = tk.Button(
+            cancelButton = ttk.Button(
                 buttonsFrame,
-                font=("titillium web semibold", 11),
                 text="Cancel",
-                bg=colors["button"],
-                fg=colors["bg"],
-                # padx= 15,
-                bd=0,
-                width=12,
+                bootstyle="secondary",
+                # image=sendIcon,
+                # compound='left',
+                # style="SendBtn.TButton",
                 command=root1.destroy,
             )
-            cancelButton.grid(row=0, column=1, pady=5, padx=8, sticky="w")
+            cancelButton.grid(row=0, column=1, pady=3, padx=8, sticky="w")
 
     def clean_fields(self):
         # Customer data inputs

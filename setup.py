@@ -3,13 +3,17 @@ from cx_Freeze import setup, Executable, sys
 # Lista de archivos adicionales (ejemplo: imágenes, fuentes, etc.)
 # Si no tienes archivos adicionales, simplemente deja la lista vacía.
 
-additional_files = [("static/icon.ico", "static/icon.ico")] # ruta original del archivo y ruta en la distribución final
+additional_files = [
+    ("static/icon.ico", "static/icon.ico"),
+    # (".env", ".env"),
+]  # ruta original del archivo y ruta en la distribución final
 
 build_options = {
     "packages": [
         "win32",
         "dotenv",
         "cryptography",
+        "ttkbootstrap",
     ],  # Puedes añadir paquetes adicionales que no sean detectados automáticamente
     "excludes": [],  # Puedes excluir paquetes que no desees incluir
     "include_files": additional_files,
