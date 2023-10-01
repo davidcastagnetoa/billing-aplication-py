@@ -74,7 +74,7 @@ if not os.path.exists(env_file):
     keywordDataFrame.columnconfigure(0, weight=1)
     keywordDataFrame.columnconfigure(1, weight=1)
 
-    keywordLabelData = tk.Label(keywordDataFrame, text="Enter your password :")
+    keywordLabelData = tk.Label(keywordDataFrame, text="Enter your Keyword :")
     keywordLabelData.grid(row=0, column=0, sticky="w")
 
     keywordEntryData = tk.Entry(keywordDataFrame, width=30)
