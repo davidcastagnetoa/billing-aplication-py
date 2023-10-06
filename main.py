@@ -20,7 +20,9 @@ def createLocalEnv():
     your_Email = emailEntryData.get()
     your_Password = passwordEntryData.get()
     your_Keyword = keywordEntryData.get()
-    env_contain = f"EMAIL={your_Email}\nPASSWORD={your_Password}\nKEY={your_Keyword}"
+    your_Account_sid = AccountSidEntryData.get()
+    your_Auth_token = AuthTokenEntryData.get()
+    env_contain = f"EMAIL={your_Email}\nPASSWORD={your_Password}\nKEY={your_Keyword}\nACCOUNT_SID={your_Account_sid}\nAUTH_TOKEN={your_Auth_token}"
     with open(env_file, "w") as key_file:
         key_file.write(env_contain)
 
@@ -79,6 +81,32 @@ if not os.path.exists(env_file):
 
     keywordEntryData = tk.Entry(keywordDataFrame, width=30)
     keywordEntryData.grid(row=0, column=1, sticky="e")
+
+    # Account_sid
+
+    AccountSidDataFrame = ttk.Frame(dataFrame, bootstyle="default")
+    AccountSidDataFrame.pack(padx=10, ipady=10, fill="x")
+    AccountSidDataFrame.columnconfigure(0, weight=1)
+    AccountSidDataFrame.columnconfigure(1, weight=1)
+
+    AccountSidLabelData = tk.Label(AccountSidDataFrame, text="Enter your Keyword :")
+    AccountSidLabelData.grid(row=0, column=0, sticky="w")
+
+    AccountSidEntryData = tk.Entry(AccountSidDataFrame, width=30)
+    AccountSidEntryData.grid(row=0, column=1, sticky="e")
+
+    # Auth_token
+
+    AuthTokenDataFrame = ttk.Frame(dataFrame, bootstyle="default")
+    AuthTokenDataFrame.pack(padx=10, ipady=10, fill="x")
+    AuthTokenDataFrame.columnconfigure(0, weight=1)
+    AuthTokenDataFrame.columnconfigure(1, weight=1)
+
+    AuthTokenLabelData = tk.Label(AuthTokenDataFrame, text="Enter your Keyword :")
+    AuthTokenLabelData.grid(row=0, column=0, sticky="w")
+
+    AuthTokenEntryData = tk.Entry(AuthTokenDataFrame, width=30)
+    AuthTokenEntryData.grid(row=0, column=1, sticky="e")
 
     # Buttons
 

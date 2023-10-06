@@ -1,5 +1,7 @@
 # This code is using a web browser for authentification
 import webbrowser
+from dotenv import load_dotenv
+import os
 
 def send_message_via_link(phone_number, message):
     base_url = "https://web.whatsapp.com/send"
@@ -15,12 +17,17 @@ if __name__ == "__main__":
 
 # ·················································································
 
+# Tus credenciales
+load_dotenv()
+ACCOUNT_SID=os.getenv("ACCOUNT_SID")
+AUTH_TOKEN=os.getenv("AUTH_TOKEN")
+
 # # Para pruebas locales en terminales con puertos y proxys libres
 # from twilio.rest import Client
 
 # def send_whatsapp_via_twilio(to, body):
-#     account_sid = 'AC18978de086257f828ef2d14cb02d1f97'  # Proporcionado por Twilio en tu dashboard. . Datos a proteger
-#     auth_token = '28940abedb09d1bdd01fe9a0c2dc737d'    # Proporcionado por Twilio en tu dashboard. . Datos a proteger
+#     account_sid = ACCOUNT_SID  # Proporcionado por Twilio en tu dashboard. . Datos a proteger
+#     auth_token = AUTH_TOKEN    # Proporcionado por Twilio en tu dashboard. . Datos a proteger
 #     client = Client(account_sid, auth_token)
     
 #     message = client.messages.create(
@@ -46,8 +53,8 @@ if __name__ == "__main__":
 
 # # Find your Account SID and Auth Token at twilio.com/console
 # # and set the environment variables. See http://twil.io/secure
-# account_sid = "AC18978de086257f828ef2d14cb02d1f97"
-# auth_token = "28940abedb09d1bdd01fe9a0c2dc737d"
+# account_sid = ACCOUNT_SID
+# auth_token = AUTH_TOKEN
 # client = Client(account_sid, auth_token)
 
 # message = client.messages \
