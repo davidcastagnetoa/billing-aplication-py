@@ -89,10 +89,17 @@ if not os.path.exists(env_file):
     AccountSidDataFrame.columnconfigure(0, weight=1)
     AccountSidDataFrame.columnconfigure(1, weight=1)
 
+<<<<<<< HEAD
     AccountSidLabelData = tk.Label(AccountSidDataFrame, text="Enter your Account Sid :", font=("titillium web light", 10))
     AccountSidLabelData.grid(row=0, column=0, sticky="w")
 
     AccountSidEntryData = tk.Entry(AccountSidDataFrame, width=45)
+=======
+    AccountSidLabelData = tk.Label(AccountSidDataFrame, text="Enter your Keyword :")
+    AccountSidLabelData.grid(row=0, column=0, sticky="w")
+
+    AccountSidEntryData = tk.Entry(AccountSidDataFrame, width=30)
+>>>>>>> c479dbdd56f06e9579bc5a05ab2583291c8c0848
     AccountSidEntryData.grid(row=0, column=1, sticky="e")
 
     # Auth_token
@@ -102,10 +109,17 @@ if not os.path.exists(env_file):
     AuthTokenDataFrame.columnconfigure(0, weight=1)
     AuthTokenDataFrame.columnconfigure(1, weight=1)
 
+<<<<<<< HEAD
     AuthTokenLabelData = tk.Label(AuthTokenDataFrame, text="Enter your Token :", font=("titillium web light", 10))
     AuthTokenLabelData.grid(row=0, column=0, sticky="w")
 
     AuthTokenEntryData = tk.Entry(AuthTokenDataFrame, width=45)
+=======
+    AuthTokenLabelData = tk.Label(AuthTokenDataFrame, text="Enter your Keyword :")
+    AuthTokenLabelData.grid(row=0, column=0, sticky="w")
+
+    AuthTokenEntryData = tk.Entry(AuthTokenDataFrame, width=30)
+>>>>>>> c479dbdd56f06e9579bc5a05ab2583291c8c0848
     AuthTokenEntryData.grid(row=0, column=1, sticky="e")
 
     # Buttons
