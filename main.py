@@ -20,7 +20,9 @@ def createLocalEnv():
     your_Email = emailEntryData.get()
     your_Password = passwordEntryData.get()
     your_Keyword = keywordEntryData.get()
-    env_contain = f"EMAIL={your_Email}\nPASSWORD={your_Password}\nKEY={your_Keyword}"
+    your_Account_sid = AccountSidEntryData.get()
+    your_Auth_token = AuthTokenEntryData.get()
+    env_contain = f"EMAIL={your_Email}\nPASSWORD={your_Password}\nKEY={your_Keyword}\nACCOUNT_SID={your_Account_sid}\nAUTH_TOKEN={your_Auth_token}"
     with open(env_file, "w") as key_file:
         key_file.write(env_contain)
 
@@ -34,7 +36,7 @@ if not os.path.exists(env_file):
     # setup_resize_event(root2) # Solo para desarrollo, borrar en produccion
     # root2.iconphoto()
     root2.title("Enter your email data")
-    root2.geometry("380x235+650+300")
+    root2.geometry("550x340+650+300")
     root2.resizable(False, False)
     root2.grab_set()  # Bloquea root, acceso a ventana padre
 
@@ -48,10 +50,10 @@ if not os.path.exists(env_file):
     emailDataFrame.columnconfigure(0, weight=1)
     emailDataFrame.columnconfigure(1, weight=1)
 
-    emailLabelData = tk.Label(emailDataFrame, text="Enter your email :")
+    emailLabelData = tk.Label(emailDataFrame, text="Enter your email :", font=("titillium web light", 10))
     emailLabelData.grid(row=0, column=0, sticky="w")
 
-    emailEntryData = tk.Entry(emailDataFrame, width=30)
+    emailEntryData = tk.Entry(emailDataFrame, width=45)
     emailEntryData.grid(row=0, column=1, sticky="e")
 
     # Password
@@ -61,10 +63,10 @@ if not os.path.exists(env_file):
     passwordDataFrame.columnconfigure(0, weight=1)
     passwordDataFrame.columnconfigure(1, weight=1)
 
-    passwordLabelData = tk.Label(passwordDataFrame, text="Enter your password :")
+    passwordLabelData = tk.Label(passwordDataFrame, text="Enter your password :", font=("titillium web light", 10))
     passwordLabelData.grid(row=0, column=0, sticky="w")
 
-    passwordEntryData = tk.Entry(passwordDataFrame, show="*", width=30)
+    passwordEntryData = tk.Entry(passwordDataFrame, show="*", width=45)
     passwordEntryData.grid(row=0, column=1, sticky="e")
 
     # Keyword
@@ -74,11 +76,37 @@ if not os.path.exists(env_file):
     keywordDataFrame.columnconfigure(0, weight=1)
     keywordDataFrame.columnconfigure(1, weight=1)
 
-    keywordLabelData = tk.Label(keywordDataFrame, text="Enter your Keyword :")
+    keywordLabelData = tk.Label(keywordDataFrame, text="Enter your Keyword :", font=("titillium web light", 10))
     keywordLabelData.grid(row=0, column=0, sticky="w")
 
-    keywordEntryData = tk.Entry(keywordDataFrame, width=30)
+    keywordEntryData = tk.Entry(keywordDataFrame, width=45)
     keywordEntryData.grid(row=0, column=1, sticky="e")
+
+    # Account_sid
+
+    AccountSidDataFrame = ttk.Frame(dataFrame, bootstyle="default")
+    AccountSidDataFrame.pack(padx=10, ipady=10, fill="x")
+    AccountSidDataFrame.columnconfigure(0, weight=1)
+    AccountSidDataFrame.columnconfigure(1, weight=1)
+
+    AccountSidLabelData = tk.Label(AccountSidDataFrame, text="Enter your Account Sid :", font=("titillium web light", 10))
+    AccountSidLabelData.grid(row=0, column=0, sticky="w")
+
+    AccountSidEntryData = tk.Entry(AccountSidDataFrame, width=45)
+    AccountSidEntryData.grid(row=0, column=1, sticky="e")
+
+    # Auth_token
+
+    AuthTokenDataFrame = ttk.Frame(dataFrame, bootstyle="default")
+    AuthTokenDataFrame.pack(padx=10, ipady=10, fill="x")
+    AuthTokenDataFrame.columnconfigure(0, weight=1)
+    AuthTokenDataFrame.columnconfigure(1, weight=1)
+
+    AuthTokenLabelData = tk.Label(AuthTokenDataFrame, text="Enter your Token :", font=("titillium web light", 10))
+    AuthTokenLabelData.grid(row=0, column=0, sticky="w")
+
+    AuthTokenEntryData = tk.Entry(AuthTokenDataFrame, width=45)
+    AuthTokenEntryData.grid(row=0, column=1, sticky="e")
 
     # Buttons
 
