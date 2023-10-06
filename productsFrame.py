@@ -967,12 +967,13 @@ class ProductFrame:
         billButton = ttk.Button(buttonFrame, bootstyle="default-outline", width=26, text="Save", command=billing_instance.save_bill)
         printButton = ttk.Button(buttonFrame, bootstyle="default-outline", width=26, text="Print", command=billing_instance.printBill)
         emailButton = ttk.Button(buttonFrame, bootstyle="default-outline", width=26, text="Email", command=billing_instance.email_form)
+        whatsAppButton = ttk.Button(buttonFrame, bootstyle="default-outline", width=26, text="WhatsApp", command=billing_instance.whatsapp_form)
         cleanButton = ttk.Button(buttonFrame, bootstyle="warning-outline", width=26, text="Clean", command=billing_instance.clean_fields)
 
         # Place the buttons inside the frame using grid
         button_positions = [
             (0, 0), (0, 1), (0, 2),
-            (1, 0), (1, 1)
+            (1, 0), (1, 1), (1, 2),
         ]
 
         buttons = [
@@ -980,6 +981,7 @@ class ProductFrame:
             billButton,
             printButton,
             emailButton,
+            whatsAppButton,
             cleanButton
         ]  # ... add other buttons ...
 
@@ -990,78 +992,13 @@ class ProductFrame:
         billButton.grid(row=0, column=1, padx=25, pady=8, sticky="nsew")
         printButton.grid(row=0, column=2, padx=(10, 5), pady=8, sticky="nsew")
         emailButton.grid(row=1, column=0, padx=(5, 10), pady=8, sticky="nsew")
-        cleanButton.grid(row=1, column=1, padx=25, pady=8, sticky="nsew")
+        whatsAppButton.grid(row=1, column=1, padx=25, pady=8, sticky="nsew")
+        cleanButton.grid(row=1, column=2, padx=(10, 5), pady=8, sticky="nsew")
 
         # Adjust the column and row weights
         for i in range(3):
             buttonFrame.columnconfigure(i, weight=1)
             buttonFrame.rowconfigure(i, weight=1)
-
-        # # Boton Total
-        # totalButton = tk.Button(
-        #     buttonFrame,
-        #     font=("titillium web semibold", 11),
-        #     text="Generate",
-        #     bg=colors["button"],
-        #     fg=colors["bg"],
-        #     # padx= 15,
-        #     bd=0,
-        #     width=12,
-        #     command=billing_instance.toBill,
-        # )
-        # totalButton.grid(row=0, column=0, pady=10, padx=20)
-        # # Boton Factura
-        # billButton = tk.Button(
-        #     buttonFrame,
-        #     font=("titillium web semibold", 11),
-        #     text="Save",
-        #     bg=colors["button"],
-        #     fg=colors["bg"],
-        #     # padx= 15,
-        #     bd=0,
-        #     width=12,
-        #     command=billing_instance.save_bill,
-        # )
-        # billButton.grid(row=0, column=1, pady=10, padx=20)
-        # # Boton Imprimir
-        # printButton = tk.Button(
-        #     buttonFrame,
-        #     font=("titillium web semibold", 11),
-        #     text="Print",
-        #     bg=colors["button"],
-        #     fg=colors["bg"],
-        #     # padx= 15,
-        #     bd=0,
-        #     width=12,
-        #     command=billing_instance.printBill,
-        # )
-        # printButton.grid(row=0, column=2, pady=10, padx=20)
-        # # Boton Email
-        # emailButton = tk.Button(
-        #     buttonFrame,
-        #     font=("titillium web semibold", 11),
-        #     text="Email",
-        #     bg=colors["button"],
-        #     fg=colors["bg"],
-        #     # padx= 15,
-        #     bd=0,
-        #     width=12,
-        #     command=billing_instance.email_form,
-        # )
-        # emailButton.grid(row=1, column=0, pady=10, padx=20)
-        # # Boton Limpiar
-        # cleanButton = tk.Button(
-        #     buttonFrame,
-        #     font=("titillium web semibold", 11),
-        #     text="Clean",
-        #     bg=colors["button"],
-        #     fg=colors["bg"],
-        #     # padx= 15,
-        #     bd=0,
-        #     width=12,
-        #     command=billing_instance.clean_fields,
-        # )
-        # cleanButton.grid(row=1, column=1, pady=10, padx=20)
 
         ProductFrame.textarea = textarea
 
