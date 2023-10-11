@@ -967,7 +967,7 @@ class ProductFrame:
         billButton = ttk.Button(buttonFrame, bootstyle="default-outline", width=26, text="Save", command=billing_instance.save_bill)
         printButton = ttk.Button(buttonFrame, bootstyle="default-outline", width=26, text="Print", command=billing_instance.printBill)
         emailButton = ttk.Button(buttonFrame, bootstyle="default-outline", width=26, text="Email", command=billing_instance.email_form)
-        whatsAppButton = ttk.Button(buttonFrame, bootstyle="default-outline", width=26, text="WhatsApp", command=billing_instance.whatsapp_form)
+        whatsAppButton = ttk.Button(buttonFrame, bootstyle="success", width=26, text="WhatsApp", command=billing_instance.whatsapp_form)
         cleanButton = ttk.Button(buttonFrame, bootstyle="warning-outline", width=26, text="Clean", command=billing_instance.clean_fields)
 
         # Place the buttons inside the frame using grid

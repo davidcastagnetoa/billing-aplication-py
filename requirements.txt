@@ -1,8 +1,14 @@
-pywin32
-python-dotenv
-cx_Freeze
-cryptography
-ttkbootstrap
+cffi==1.16.0
+cryptography==41.0.4
+cx-Freeze==6.15.9
+cx-Logging==3.1.0
+lief==0.13.2
+Pillow==10.0.1
+pycparser==2.21
+python-dotenv==1.0.0
+pywin32==306
+ttkbootstrap==1.10.1
+
 
 # Package       Version
 # ------------- -------
@@ -19,3 +25,5 @@ ttkbootstrap
 # wheel         0.41.2 
 
 # nhzajerrjcijwgjc
+# AC18978de086257f828e-f2d14cb02d1f97
+# 3ab4becd704e1ac5e9abebaf8595f409

@@ -88,6 +88,7 @@ EMAIL = os.getenv("EMAIL")
 PASSWORD = os.getenv("PASSWORD")
 KEY = os.getenv("KEY")
 PHONE = os.getenv("PHONE")
+DEFAULT_RECIEVER = os.getenv("DEFAULT_RECIEVER")
 
 # Solo ejecuta esto una vez para generar una nueva clave
 yourKey = KEY if KEY else "default_word"
@@ -705,7 +706,7 @@ class BillingApp:
         textarea = self.textarea
 
         phone = PHONE if PHONE else "Enter your phone"
-        passwordData = "Your AUTH TOKEN"
+        defaultRecieverNumber = DEFAULT_RECIEVER if DEFAULT_RECIEVER else "Insert a phone number"
         
         if not invoice:
             messagebox.showerror("Error", "Invoice number is required!")
@@ -715,7 +716,7 @@ class BillingApp:
 
 
         def send_message_via_link():
-            phone_number_sender = senderNumberEntry.get()
+            phone_number_sender = phone
             phone_number_reciever = recieverNumberEntry.get()
             message = messageTextarea.get(1.0, tk.END)
             print(f"Sending WhatsApp from: {phone_number_sender} to: {phone_number_reciever}")
@@ -730,7 +731,7 @@ class BillingApp:
             # setup_resize_event(rootWA) # Solo para desarrollo, borrar en produccion
             # rootWA.iconphoto()
             rootWA.title("Send Email")
-            rootWA.geometry("488x790+650+300")
+            rootWA.geometry("481x680+650+300")
             rootWA.resizable(False, False)
             rootWA.grab_set()  # Bloquea root, acceso a ventana padre
 
@@ -738,7 +739,7 @@ class BillingApp:
             sender_frame.pack(ipadx=10, ipady=10, pady=(12, 0), fill="x")
             whatsappFrame = ttk.Labelframe(
                 sender_frame,
-                text="Sender",
+                text="WhatsApp's phone numbers",
                 bootstyle="default",
             )
             whatsappFrame.pack(padx=10, ipady=10, fill="x")
@@ -757,7 +758,7 @@ class BillingApp:
                 font=("titillium web light", 10),
                 bg=colors["entry"],
                 fg=colors["font"],
-                width=45,
+                width=30,
                 insertbackground=colors["font"],  # color del cursor
             )
             senderNumberEntry.grid(row=0, column=1, padx=8, pady=(20, 0), sticky="w")
@@ -776,15 +777,11 @@ class BillingApp:
                 font=("titillium web light", 10),
                 bg=colors["entry"],
                 fg=colors["font"],
-                width=45,
+                width=30,
                 insertbackground=colors["font"],  # color del cursor
             )
             recieverNumberEntry.grid(row=1, column=1, padx=8, pady=8, sticky="w")
-            recieverNumberEntry.insert(0, passwordData) 
-
-
-
-
+            recieverNumberEntry.insert(0, defaultRecieverNumber) 
 
             buttonsFrame = ttk.Frame(whatsappFrame, bootstyle="default")
             buttonsFrame.grid(row=2, column=0, columnspan=2, sticky="we")
@@ -807,7 +804,7 @@ class BillingApp:
             cancelButton = ttk.Button(
                 buttonsFrame,
                 text="Cancel",
-                bootstyle="secondary",
+                bootstyle="danger",
                 # image=sendIcon,
                 # compound='left',
                 # style="SendBtn.TButton",
@@ -815,77 +812,15 @@ class BillingApp:
             )
             cancelButton.grid(row=0, column=1, pady=3, padx=8, sticky="w")
 
-
-
-
-
-
-
-            # loginButtonFrame = tk.Frame(
-            #     whatsappFrame,
-            #     bg=colors["bg"],
-            # )
-            # loginButtonFrame.grid(row=2, column=0, columnspan=2, sticky="ew")
-            # loginButtonFrame.columnconfigure(0, weight=1)
-            # loginButtonFrame.columnconfigure(1, weight=1)
-
-            # showpasswordButton = tk.Button(
-            #     loginButtonFrame,
-            #     font=("titillium web semibold", 9),
-            #     text="Show Password",
-            #     bg=colors["button"],
-            #     fg=colors["bg"],
-            #     # padx= 15,
-            #     bd=0,
-            #     width=18,
-            #     # command=toggle_password,
-            # )
-            # showpasswordButton.grid(row=0, column=0, pady=5, padx=8)
-
-            # changeLoginButton = tk.Button(
-            #     loginButtonFrame,
-            #     font=("titillium web semibold", 9),
-            #     text="Change Login Data",
-            #     bg=colors["button"],
-            #     fg=colors["bg"],
-            #     # padx= 15,
-            #     bd=0,
-            #     width=18,
-            #     # command=changeUserData,
-            # )
-            # changeLoginButton.grid(row=0, column=1, pady=5, padx=8)
-
-
-
-
-
-
-
             recipientFrame = ttk.Labelframe(
                 sender_frame,
-                text="Recipient Email",
+                text="Data to send",
                 # font=("titillium web regular", 14),
                 bootstyle="default",
             )
-            recipientFrame.pack(padx=10, pady=(20, 0), ipady=5, fill="x")
+            recipientFrame.pack(padx=10, pady=(20, 0), fill="x")
             recipientFrame.columnconfigure(0, weight=1)
-            recipientLabel = tk.Label(
-                recipientFrame,
-                text="To",
-                font=("titillium web light", 10),
-                bg=colors["bg"],
-                fg=colors["font"],
-            )
-            recipientLabel.grid(row=0, column=0, padx=10, pady=(20, 10), sticky="w")
-            recipientEntry = tk.Entry(
-                recipientFrame,
-                font=("titillium web light", 10),
-                bg=colors["entry"],
-                fg=colors["font"],
-                width=45,
-                insertbackground=colors["font"],  # color del cursor
-            )
-            recipientEntry.grid(row=0, column=1, padx=8, pady=(20, 0), sticky="w")
+
             messageLabel = tk.Label(
                 recipientFrame,
                 text="Message",
@@ -893,7 +828,7 @@ class BillingApp:
                 bg=colors["bg"],
                 fg=colors["font"],
             )
-            messageLabel.grid(row=1, column=0, padx=10, pady=(0, 10), sticky="w")
+            messageLabel.grid(row=1, column=0, padx=10, pady=(10, 10), sticky="we")
             messageTextarea = tk.Text(
                 recipientFrame,
                 font=("titillium web extralight", 10),
@@ -905,41 +840,11 @@ class BillingApp:
                 height=20,
             )
             messageTextarea.grid(
-                row=2, column=0, pady=(0, 15), columnspan=2, sticky="we"
+                row=2, column=0, pady=(0, 0), columnspan=2, sticky="we"
             )
             messageTextarea.configure(state="normal")
             messageTextarea.delete(1.0, tk.END)
             messageTextarea.insert(tk.END, textarea.get(1.0, tk.END).replace("=", ""))
             messageTextarea.configure(state="disabled")
-            buttonsFrame = ttk.Frame(recipientFrame, bootstyle="default")
-            buttonsFrame.grid(row=3, column=0, columnspan=2, sticky="we")
-            buttonsFrame.columnconfigure(0, weight=1)
-            buttonsFrame.columnconfigure(1, weight=1)
-
-            # Send WhatsApp Button
-            sendEmailButton = ttk.Button(
-                buttonsFrame,
-                bootstyle="success",
-                # image=sendIcon,
-                # compound='left',
-                # style="SendBtn.TButton",
-                text="Send WhatsApp",
-                command=send_message_via_link,
-            )
-            sendEmailButton.grid(row=0, column=0, pady=3, padx=8, sticky="e")
-
-            # Cancel Button
-            cancelButton = ttk.Button(
-                buttonsFrame,
-                text="Cancel",
-                bootstyle="secondary",
-                # image=sendIcon,
-                # compound='left',
-                # style="SendBtn.TButton",
-                command=rootWA.destroy,
-            )
-            cancelButton.grid(row=0, column=1, pady=3, padx=8, sticky="w")
-
-
 
 # Developed by David Castagneto, version 1.0

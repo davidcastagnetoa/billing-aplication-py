@@ -22,7 +22,8 @@ def createLocalEnv():
     your_Keyword = keywordEntryData.get()
     your_Account_sid = AccountSidEntryData.get()
     your_Auth_token = AuthTokenEntryData.get()
-    env_contain = f"EMAIL={your_Email}\nPASSWORD={your_Password}\nKEY={your_Keyword}\nACCOUNT_SID={your_Account_sid}\nAUTH_TOKEN={your_Auth_token}"
+    your_phone = PhoneEntryData.get()
+    env_contain = f"EMAIL={your_Email}\nPASSWORD={your_Password}\nKEY={your_Keyword}\nACCOUNT_SID={your_Account_sid}\nAUTH_TOKEN={your_Auth_token}\nPHONE={your_phone}"
     with open(env_file, "w") as key_file:
         key_file.write(env_contain)
 
@@ -31,7 +32,8 @@ def createLocalEnv():
 
 
 if not os.path.exists(env_file):
-    # Crear una ventana que permita al usuario introducir su mail , contraseña de mail para aplicaciones externas y su palabra clave
+    # Crear una ventana que permita al usuario introducir su mail ,
+    # contraseña de mail para aplicaciones externas y su palabra clave
     root2 = Toplevel(root)
     # setup_resize_event(root2) # Solo para desarrollo, borrar en produccion
     # root2.iconphoto()
@@ -81,6 +83,19 @@ if not os.path.exists(env_file):
 
     keywordEntryData = tk.Entry(keywordDataFrame, width=45)
     keywordEntryData.grid(row=0, column=1, sticky="e")
+
+    # your Phone
+
+    PhoneDataFrame = ttk.Frame(dataFrame, bootstyle="default")
+    PhoneDataFrame.pack(padx=10, ipady=10, fill="x")
+    PhoneDataFrame.columnconfigure(0, weight=1)
+    PhoneDataFrame.columnconfigure(1, weight=1)
+
+    PhoneLabelData = tk.Label(PhoneDataFrame, text="Enter your Phone number :", font=("titillium web light", 10))
+    PhoneLabelData.grid(row=0, column=0, sticky="w")
+
+    PhoneEntryData = tk.Entry(PhoneDataFrame, width=45)
+    PhoneEntryData.grid(row=0, column=1, sticky="e")
 
     # Account_sid
 
