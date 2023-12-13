@@ -23,7 +23,3 @@ ttkbootstrap==1.10.1
 # pywin32       306    
 # setuptools    68.1.2 
 # wheel         0.41.2 
-
-# nhzajerrjcijwgjc
-# AC18978de086257f828e-f2d14cb02d1f97
-# 3ab4becd704e1ac5e9abebaf8595f409
